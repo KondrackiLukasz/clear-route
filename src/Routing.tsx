@@ -20,15 +20,6 @@ export function Routing({from, to}: MapComponentProps) {
                     {color: 'blue', opacity: 0.6, weight: 4},
                 ],
             },
-            altLineOptions: {
-                extendToWaypoints: true,
-                missingRouteTolerance: 0.0,
-                styles: [
-                    {color: 'blue', opacity: 0.3, weight: 4},
-                    {color: 'blue', opacity: 0.3, weight: 4},
-                    {color: 'blue', opacity: 0.3, weight: 4},
-                ],
-            },
         }).addTo(map);
 
         return () => {

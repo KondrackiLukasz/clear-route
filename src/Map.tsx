@@ -1,4 +1,4 @@
-import {MapContainer, Marker, TileLayer} from 'react-leaflet';
+import {MapContainer, TileLayer} from 'react-leaflet';
 import {LatLngTuple} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
@@ -19,8 +19,6 @@ export function MapComponent({ from, to }: MapComponentProps) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={from} />
-            <Marker position={to} />
             <Routing from={from} to={to} />
         </MapContainer>
     );
