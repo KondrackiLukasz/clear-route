@@ -18,7 +18,7 @@ function Routing({ from, to }: MapComponentProps) {
         const routingControl = L.Routing.control({
             waypoints: [L.latLng(from[0], from[1]), L.latLng(to[0], to[1])],
             routeWhileDragging: false,
-            showAlternatives: true,
+            showAlternatives: false,
             lineOptions: {
                 extendToWaypoints: true,
                 missingRouteTolerance: 0.0,
