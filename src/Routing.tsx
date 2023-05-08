@@ -1,7 +1,7 @@
 import {useMap} from "react-leaflet";
 import {useEffect} from "react";
 import L from "leaflet";
-import {MapComponentProps} from "./Map.tsx";
+import {MapComponentProps} from "./Map";
 
 export function Routing({from, to}: MapComponentProps) {
     const map = useMap();

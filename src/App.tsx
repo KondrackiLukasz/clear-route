@@ -1,5 +1,7 @@
 import mapStyles from './map.module.css';
-import { MapComponent } from './Map.tsx';
+import { MapComponent } from './Map';
+import ResponsiveInterface from './Drawer';
+import React from 'react'
 
 export function App() {
     const gdanskWrzeszczCoordinates: [number, number] = [54.3842, 18.5922];
@@ -7,7 +9,7 @@ export function App() {
 
     return (
         <div className={mapStyles.mapContainer}>
-            <MapComponent from={gdanskWrzeszczCoordinates} to={gdyniaCoordinates} />
+            <ResponsiveInterface></ResponsiveInterface>
         </div>
     );
 }
