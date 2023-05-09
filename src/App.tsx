@@ -1,6 +1,6 @@
 import mapStyles from './map.module.css';
 import { MapComponent } from './Map';
-import ResponsiveInterface from './Drawer';
+import ResponsiveInterface from './ResponsiveInterface';
 import React from 'react'
 
 export function App() {

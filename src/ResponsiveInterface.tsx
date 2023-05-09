@@ -5,16 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+import { Button } from "@mui/material";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MapComponent } from "./Map";
+import { TextField } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -22,42 +19,64 @@ interface Props {
   window?: () => Window;
 }
 
-const gdanskWrzeszczCoordinates: [number, number] = [54.3842, 18.5922];
-const gdyniaCoordinates: [number, number] = [54.5189, 18.5305];
-
 export default function ResponsiveInterface(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const initialLonFrom = 54.3842;
+  const initialLatFrom = 18.5922;
+  const initialLonTo = 54.5189;
+  const initialLatTo = 18.5305;
+  const [lonFrom, setLonFrom] = React.useState(initialLonFrom);
+  const [latFrom, setLatFrom] = React.useState(initialLatFrom);
+  const [lonTo, setLonTo] = React.useState(initialLonTo);
+  const [latTo, setLatTo] = React.useState(initialLatTo);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleResetClick = () => {
+    setLonFrom(initialLonFrom);
+    setLatFrom(initialLatFrom);
+    setLonTo(initialLonTo);
+    setLatTo(initialLatTo);
+  };
+
+  const styles = {
+    input: {
+      padding: "8px",
+    },
+    button: {
+      backgroundColor: "#1976d2",
+      color: "white",
+      padding: "8px",
+    },
+    stripe: {
+      display: "flex",
+      alignItems: "center",
+      padding: "8px",
+      backgroundColor: "#1976d2",
+      color: "white",
+    },
+  };
+  
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+
+      <Box style={styles.stripe}>
+        <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
+      </Box>
+        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event) => setLonFrom(event.target.value)} style={styles.input} />
+        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event) => setLatFrom(event.target.value)} style={styles.input} />
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <Box style={styles.stripe}>
+        <Typography variant="h6" style={{ marginRight: "16px" }}>To:</Typography>
+      </Box>
+        <TextField id="to-lon" label="Longitude" variant="outlined" value={lonTo} onChange={(event) => setLonTo(event.target.value)} style={styles.input} />
+        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event) => setLatTo(event.target.value)} style={styles.input} />
+      <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
     </div>
   );
 
@@ -132,7 +151,7 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <MapComponent from={gdanskWrzeszczCoordinates} to={gdyniaCoordinates} />
+        <MapComponent from={[lonFrom,latFrom]} to={[lonFrom,latTo]} />
       </Box>
 
     </Box>
