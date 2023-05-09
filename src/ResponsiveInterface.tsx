@@ -6,7 +6,6 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
-import List from "@mui/material/List";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -68,14 +67,14 @@ export default function ResponsiveInterface(props: Props) {
       <Box style={styles.stripe}>
         <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
       </Box>
-        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event) => setLonFrom(event.target.value)} style={styles.input} />
-        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event) => setLatFrom(event.target.value)} style={styles.input} />
+        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event) => setLonFrom(Number(event.target.value))} style={styles.input} />
+        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event) => setLatFrom(Number(event.target.value))} style={styles.input} />
       <Divider />
       <Box style={styles.stripe}>
         <Typography variant="h6" style={{ marginRight: "16px" }}>To:</Typography>
       </Box>
-        <TextField id="to-lon" label="Longitude" variant="outlined" value={lonTo} onChange={(event) => setLonTo(event.target.value)} style={styles.input} />
-        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event) => setLatTo(event.target.value)} style={styles.input} />
+        <TextField id="to-lon" label="Longitude" variant="outlined" value={lonTo} onChange={(event) => setLonTo(Number(event.target.value))} style={styles.input} />
+        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event) => setLatTo(Number(event.target.value))} style={styles.input} />
       <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
     </div>
   );
