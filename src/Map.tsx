@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import { Routing } from "./Routing";
-import React from "react";
 
 export interface MapComponentProps {
   from: LatLngTuple;
