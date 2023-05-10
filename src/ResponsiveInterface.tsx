@@ -81,7 +81,7 @@ export default function ResponsiveInterface(props: Props) {
       color: "white",
     },
   };
-  
+
   const drawer = (
     <div>
       <Toolbar />

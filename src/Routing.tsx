@@ -1,9 +1,13 @@
 import {useMap} from "react-leaflet";
 import {useEffect} from "react";
-import L from "leaflet";
-import {MapComponentProps} from "./Map";
+import L, {LatLngTuple} from "leaflet";
 
-export function Routing({from, to}: MapComponentProps) {
+export interface MapComponentProps {
+    from: LatLngTuple;
+    to: LatLngTuple;
+    setWaypoints: (waypoints: LatLngTuple[]) => void;
+}
+export function Routing({from, to, setWaypoints}: MapComponentProps) {
     const map = useMap();
 
     useEffect(() => {
@@ -22,10 +26,14 @@ export function Routing({from, to}: MapComponentProps) {
             },
         }).addTo(map);
 
+        const waypoints = routingControl.getPlan().getWaypoints();
+
+        setWaypoints(waypoints.map(w => [w.latLng.lat, w.latLng.lng]));
+
         return () => {
             map.removeControl(routingControl);
         };
-    }, [map, from, to]);
+    }, [map, from, to, setWaypoints]);
 
     return null;
 }
