@@ -11,6 +11,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MapComponent } from "./Map";
 import { TextField } from "@mui/material";
+import { spacing } from '@mui/system';
 
 const drawerWidth = 240;
 
@@ -33,6 +34,13 @@ export default function ResponsiveInterface(props: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleCurrentLocation = () => {
+        navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }
 
   const handleResetClick = () => {
     setLonFrom(initialLonFrom);
@@ -64,18 +72,24 @@ export default function ResponsiveInterface(props: Props) {
       <Toolbar />
       <Divider />
 
-      <Box style={styles.stripe}>
+      <Box style={styles.stripe} sx={{ padding: 2 }}>
         <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
       </Box>
+      <br></br>
         <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event) => setLonFrom(Number(event.target.value))} style={styles.input} />
         <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event) => setLatFrom(Number(event.target.value))} style={styles.input} />
       <Divider />
-      <Box style={styles.stripe}>
-        <Typography variant="h6" style={{ marginRight: "16px" }}>To:</Typography>
+      <br></br>
+      <Box style={styles.stripe} >
+        <Typography variant="h6" style={{ marginRight: "16px" }} >To:</Typography>
       </Box>
-        <TextField id="to-lon" label="Longitude" variant="outlined" value={lonTo} onChange={(event) => setLonTo(Number(event.target.value))} style={styles.input} />
+      <br></br>
+        <TextField id="to-lon" label="Longitude" variant="outlined" sx={{ padding: 2 }} value={lonTo} onChange={(event) => setLonTo(Number(event.target.value))} style={styles.input} />
         <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event) => setLatTo(Number(event.target.value))} style={styles.input} />
-      <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
+        <Box textAlign='center'>
+        <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
+        </Box>
+        
     </div>
   );
 
