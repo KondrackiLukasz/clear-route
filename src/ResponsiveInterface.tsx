@@ -11,7 +11,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MapComponent } from "./Map";
 import { TextField } from "@mui/material";
-import { spacing } from '@mui/system';
+import UpperToolbar from "./UpperToolbar";
 
 const drawerWidth = 240;
 
@@ -30,17 +30,32 @@ export default function ResponsiveInterface(props: Props) {
   const [latFrom, setLatFrom] = React.useState(initialLatFrom);
   const [lonTo, setLonTo] = React.useState(initialLonTo);
   const [latTo, setLatTo] = React.useState(initialLatTo);
+  const [toolbarVisible, setToolbarVisible] = React.useState(true);
+  const [currentLatitude, setCurrentLatitude] = React.useState(0);
+  const [currentLongitude, setCurrentLongitude] = React.useState(0);
+
+  React.useEffect(() => {
+    if (navigator.geolocation) {
+      const intervalId = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setCurrentLatitude(position.coords.latitude);
+          setCurrentLongitude(position.coords.longitude);
+          console.log(position)
+        }, (error) => {
+          console.log(error);
+        });
+      }, 10000);
+      return () => clearInterval(intervalId);
+    }
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    });
-  }
+  const handleToggleToolbar = () => {
+    setToolbarVisible(!toolbarVisible);
+  };
 
   const handleResetClick = () => {
     setLonFrom(initialLonFrom);
@@ -76,18 +91,22 @@ export default function ResponsiveInterface(props: Props) {
         <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
       </Box>
       <br></br>
-        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event) => setLonFrom(Number(event.target.value))} style={styles.input} />
-        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event) => setLatFrom(Number(event.target.value))} style={styles.input} />
+        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonFrom(Number(event.target.value))} style={styles.input} />
+        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLatFrom(Number(event.target.value))} style={styles.input} />
       <Divider />
       <br></br>
       <Box style={styles.stripe} >
         <Typography variant="h6" style={{ marginRight: "16px" }} >To:</Typography>
       </Box>
       <br></br>
-        <TextField id="to-lon" label="Longitude" variant="outlined" sx={{ padding: 2 }} value={lonTo} onChange={(event) => setLonTo(Number(event.target.value))} style={styles.input} />
-        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event) => setLatTo(Number(event.target.value))} style={styles.input} />
+        <TextField id="to-lon" label="Longitude" variant="outlined" sx={{ padding: 2 }} value={lonTo} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonTo(Number(event.target.value))} style={styles.input} />
+        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLatTo(Number(event.target.value))} style={styles.input} />
         <Box textAlign='center'>
         <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
+        <br></br>
+        <Button onClick={handleToggleToolbar} variant="contained" color="primary">
+         {toolbarVisible ? 'Hide Upper Toolbar' : 'Show Upper Toolbar'}
+        </Button>
         </Box>
         
     </div>
@@ -164,6 +183,9 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
+        <Box>
+          <UpperToolbar toolbarVisible={toolbarVisible} currentLatitude={currentLatitude} currentLongitude={currentLongitude} > </UpperToolbar>
+        </Box>
         <MapComponent from={[lonFrom,latFrom]} to={[lonFrom,latTo]} />
       </Box>
 
