@@ -9,6 +9,21 @@ import {Station, useAllStations} from "./useAllStations.ts";
 import {haversineDistance} from "./useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
 import { Icon } from "leaflet";
+import L from 'leaflet';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import icon from 'leaflet/dist/images/marker-icon.png';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 export interface MapComponentProps {
     from: LatLngTuple;
