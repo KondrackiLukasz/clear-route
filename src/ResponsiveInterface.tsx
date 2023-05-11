@@ -13,8 +13,11 @@ import { MapComponent } from "./Map";
 import UpperToolbar from "./UpperToolbar";
 import CollapsibleList from "./CollapsibleList";
 
-const drawerWidth = 240;
-
+const drawerWidth = 200;
+  const initialLonFrom = 54.3842;
+  const initialLatFrom = 18.5922;
+  const initialLonTo = 54.5189;
+  const initialLatTo = 18.5305;
 interface Props {
   window?: () => Window;
 }
@@ -22,10 +25,7 @@ interface Props {
 export default function ResponsiveInterface(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const initialLonFrom = 54.3842;
-  const initialLatFrom = 18.5922;
-  const initialLonTo = 54.5189;
-  const initialLatTo = 18.5305;
+
   //From, To on the left toolbar
   const [lonFrom, setLonFrom] = React.useState(initialLonFrom);
   const [latFrom, setLatFrom] = React.useState(initialLatFrom);
@@ -36,7 +36,9 @@ export default function ResponsiveInterface(props: Props) {
   const [currentLatitude, setCurrentLatitude] = React.useState(0);
   const [currentLongitude, setCurrentLongitude] = React.useState(0);
   const handleToggleToolbar = () => {
-    setToolbarVisible(!toolbarVisible);
+    if(checkedItems.length !== 0){
+      setToolbarVisible(!toolbarVisible);
+    }
   };
   const [checkedItems, setCheckedItems] = React.useState([]);
   //current location calculated every some time interval
@@ -113,8 +115,8 @@ export default function ResponsiveInterface(props: Props) {
 
   const drawer = (
     <div>
-      <Box style={styles.stripe} sx={{ padding: 2 }}>
-        <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
+      <Box style={styles.stripe}>
+        <Typography variant="h7">From:</Typography>
       </Box>
       <br></br>
         <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonFrom(Number(event.target.value))} style={styles.input} />
@@ -122,7 +124,7 @@ export default function ResponsiveInterface(props: Props) {
       <Divider />
       <br></br>
       <Box style={styles.stripe} >
-        <Typography variant="h6" style={{ marginRight: "16px" }} >To:</Typography>
+        <Typography variant="h7" >To:</Typography>
       </Box>
       <br></br>
         <TextField id="to-lon" label="Longitude" variant="outlined" sx={{ padding: 2 }} value={lonTo} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonTo(Number(event.target.value))} style={styles.input} />
@@ -132,7 +134,7 @@ export default function ResponsiveInterface(props: Props) {
         <br></br>
         <br></br>
         <Button onClick={handleToggleToolbar} variant="contained" color="primary">
-         {toolbarVisible ? 'Hide Upper Toolbar' : 'Show Upper Toolbar'}
+         {toolbarVisible ? 'Hide Indicators' : 'Show Indicators'}
         </Button>
         <CollapsibleList items={items} onCheckboxChange={handleCheckboxChange} />
         </Box>
