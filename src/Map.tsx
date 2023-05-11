@@ -19,7 +19,7 @@ export interface MapComponentProps {
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
-    icon: 'coffee', // replace 'coffee' with the name of the icon you want to use
+    icon: 'smog', // replace 'coffee' with the name of the icon you want to use
     markerColor: 'red', // replace 'red' with the color you want
     prefix: 'fa', // prefix for the icon, 'fa' for font-awesome
 });
