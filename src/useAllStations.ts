@@ -15,7 +15,7 @@ export function useAllStations(waypoints: LatLngTuple[], radius: number) {
     useEffect(() => {
         const fetchStations = async () => {
             const response = await fetch(
-                "https://api.waqi.info/v2/map/bounds?latlng=20.254,8.972,80.670,30.635&networks=all&token=9249e672bc03b2494df5a83bb22f9c17cff4b4f9"
+                "https://api.waqi.info/v2/map/bounds?latlng=53.254,15.972,57.670,20.635&networks=all&token=9249e672bc03b2494df5a83bb22f9c17cff4b4f9"
             );
             const data = await response.json();
 
