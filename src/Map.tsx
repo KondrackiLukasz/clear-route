@@ -81,8 +81,6 @@ export function MapComponent({from, to}: MapComponentProps) {
         )
     );
 
-    // const stations = useNearStations(waypoints, radius);
-
     return (
         <MapContainer
             center={from}

@@ -37,3 +37,17 @@ body,
     display: none;
   }
 }
+
+.checkbox-input {
+  width: 20px; /* Adjust the width as needed */
+}
+
+.checkbox-label {
+  margin-left: 5px; /* Optional: Add some spacing between the checkbox and label */
+}
+
+.MuiGrid-root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

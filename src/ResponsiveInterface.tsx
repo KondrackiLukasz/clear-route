@@ -5,13 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import { Button } from "@mui/material";
+import { Button,TextField} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { MapComponent } from "./Map";
-import { TextField } from "@mui/material";
 import UpperToolbar from "./UpperToolbar";
+import CollapsibleList from "./CollapsibleList";
 
 const drawerWidth = 240;
 
@@ -26,42 +26,71 @@ export default function ResponsiveInterface(props: Props) {
   const initialLatFrom = 18.5922;
   const initialLonTo = 54.5189;
   const initialLatTo = 18.5305;
+  //From, To on the left toolbar
   const [lonFrom, setLonFrom] = React.useState(initialLonFrom);
   const [latFrom, setLatFrom] = React.useState(initialLatFrom);
   const [lonTo, setLonTo] = React.useState(initialLonTo);
   const [latTo, setLatTo] = React.useState(initialLatTo);
-  const [toolbarVisible, setToolbarVisible] = React.useState(true);
+  //UpperToolbar steering vars
+  const [toolbarVisible, setToolbarVisible] = React.useState(false);
   const [currentLatitude, setCurrentLatitude] = React.useState(0);
   const [currentLongitude, setCurrentLongitude] = React.useState(0);
-
+  const handleToggleToolbar = () => {
+    setToolbarVisible(!toolbarVisible);
+  };
+  const [checkedItems, setCheckedItems] = React.useState([]);
+  //current location calculated every some time interval
   React.useEffect(() => {
     if (navigator.geolocation) {
       const intervalId = setInterval(() => {
         navigator.geolocation.getCurrentPosition((position) => {
           setCurrentLatitude(position.coords.latitude);
           setCurrentLongitude(position.coords.longitude);
-          console.log(position)
+          try {
+            console.log(checkedItems)
+            for(let i=0;i<checkedItems.length;i++){
+              if(checkedItems[i].name === 'Current Latitude'){
+                  checkedItems[i].value = position.coords.latitude;
+              }else if (checkedItems[i].name === 'Current Longitude'){
+                  checkedItems[i].value = position.coords.longitude;
+              }
+            }
+          } catch (error) {
+            
+          }
         }, (error) => {
           console.log(error);
         });
-      }, 10000);
+      }, 3000);
       return () => clearInterval(intervalId);
     }
   }, []);
-
+  // mobile view
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const handleToggleToolbar = () => {
-    setToolbarVisible(!toolbarVisible);
-  };
-
+  //left toolbar
   const handleResetClick = () => {
     setLonFrom(initialLonFrom);
     setLatFrom(initialLatFrom);
     setLonTo(initialLonTo);
     setLatTo(initialLatTo);
+  };
+
+  const items = [
+    { name: 'Current Latitude', value: currentLatitude },
+    { name: 'Current Longitude', value: currentLongitude },
+    { name: 'P10', value: 12 },
+    { name: 'P25', value: 123 },
+    { name: 'Air Quality Index', value: 1234 },
+  ];
+
+  const handleCheckboxChange = (item, checked) => {
+    if (checked && !checkedItems.includes(item)) {
+      setCheckedItems([...checkedItems, item]);
+    } else if(!checked){
+      setCheckedItems(checkedItems.filter((checkedItem) => checkedItem?.name !== item.name));
+    }
   };
 
   const styles = {
@@ -84,9 +113,6 @@ export default function ResponsiveInterface(props: Props) {
 
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
-
       <Box style={styles.stripe} sx={{ padding: 2 }}>
         <Typography variant="h6" style={{ marginRight: "16px" }}>From:</Typography>
       </Box>
@@ -104,9 +130,11 @@ export default function ResponsiveInterface(props: Props) {
         <Box textAlign='center'>
         <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
         <br></br>
+        <br></br>
         <Button onClick={handleToggleToolbar} variant="contained" color="primary">
          {toolbarVisible ? 'Hide Upper Toolbar' : 'Show Upper Toolbar'}
         </Button>
+        <CollapsibleList items={items} onCheckboxChange={handleCheckboxChange} />
         </Box>
         
     </div>
@@ -135,10 +163,9 @@ export default function ResponsiveInterface(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            GeoApp
-          </Typography>
+          <UpperToolbar toolbarVisible={toolbarVisible} checkedItems = {checkedItems} > </UpperToolbar>
         </Toolbar>
+
       </AppBar>
       <Box
         component="nav"
@@ -183,9 +210,6 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Box>
-          <UpperToolbar toolbarVisible={toolbarVisible} currentLatitude={currentLatitude} currentLongitude={currentLongitude} > </UpperToolbar>
-        </Box>
         <MapComponent from={[lonFrom,latFrom]} to={[lonFrom,latTo]} />
       </Box>
 
