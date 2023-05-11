@@ -67,7 +67,7 @@ export default function ResponsiveInterface(props: Props) {
             console.log(error);
           }
         );
-      }, 3000);
+      }, 300000);
       return () => clearInterval(intervalId);
     }
   }, []);

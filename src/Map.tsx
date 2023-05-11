@@ -97,7 +97,6 @@ export function MapComponent({from, to}: MapComponentProps) {
                     <Popup>
                         <MockedPopup station={station}/>
                     </Popup>
-
                 </Marker>
             ))}
         </MapContainer>
