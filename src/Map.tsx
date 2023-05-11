@@ -8,11 +8,19 @@ import {useState} from "react";
 import {Station, useAllStations} from "./useAllStations.ts";
 import {haversineDistance} from "./useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
+import { Icon } from "leaflet";
 
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
 }
+
+const stationIcon = new Icon({
+    iconUrl: "/images/station.png",
+    iconSize: [25, 41], // size of the icon, you might need to adjust this
+    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location, you might need to adjust this
+    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor, you might need to adjust this
+});
 
 export function MapComponent({from, to}: MapComponentProps) {
     const [waypoints, setWaypoints] = useState([from, to]);
@@ -42,7 +50,7 @@ export function MapComponent({from, to}: MapComponentProps) {
             />
             <Routing from={from} to={to} setWaypoints={setWaypoints}/>
             {filteredStations.map((station) => (
-                <Marker key={station.idx} position={[station.lat, station.lng]}>
+                <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>
                         Station ID: {station.idx} <br/>
                         AQI: {station.aqi}
