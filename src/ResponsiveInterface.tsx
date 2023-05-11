@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import { Button,TextField} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -14,14 +14,13 @@ import UpperToolbar from "./UpperToolbar";
 import CollapsibleList from "./CollapsibleList";
 
 const drawerWidth = 200;
-  const initialLonFrom = 54.3842;
-  const initialLatFrom = 18.5922;
-  const initialLonTo = 54.5189;
-  const initialLatTo = 18.5305;
+const initialLonFrom = 54.3842;
+const initialLatFrom = 18.5922;
+const initialLonTo = 54.5189;
+const initialLatTo = 18.5305;
 interface Props {
   window?: () => Window;
 }
-
 export default function ResponsiveInterface(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -36,33 +35,38 @@ export default function ResponsiveInterface(props: Props) {
   const [currentLatitude, setCurrentLatitude] = React.useState(0);
   const [currentLongitude, setCurrentLongitude] = React.useState(0);
   const handleToggleToolbar = () => {
-    if(checkedItems.length !== 0){
+    if (checkedItems.length !== 0) {
       setToolbarVisible(!toolbarVisible);
     }
   };
-  const [checkedItems, setCheckedItems] = React.useState([]);
+  const [checkedItems, setCheckedItems] = React.useState(Array<any>());
   //current location calculated every some time interval
   React.useEffect(() => {
     if (navigator.geolocation) {
       const intervalId = setInterval(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setCurrentLatitude(position.coords.latitude);
-          setCurrentLongitude(position.coords.longitude);
-          try {
-            console.log(checkedItems)
-            for(let i=0;i<checkedItems.length;i++){
-              if(checkedItems[i].name === 'Current Latitude'){
-                  checkedItems[i].value = position.coords.latitude;
-              }else if (checkedItems[i].name === 'Current Longitude'){
-                  checkedItems[i].value = position.coords.longitude;
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setCurrentLatitude(position.coords.latitude);
+            setCurrentLongitude(position.coords.longitude);
+            try {
+              for (let i = 0; i < checkedItems.length; i++) {
+                if ('name' in checkedItems[i] && 'value' in checkedItems[i]) {
+                  if (checkedItems[i].name === "Current Latitude") 
+                  {
+                    checkedItems[i].value = position.coords.latitude;
+                  } 
+                  else if (checkedItems[i].name === "Current Longitude") 
+                  {
+                    checkedItems[i].value = position.coords.longitude;
+                  }
+                }
               }
-            }
-          } catch (error) {
-            
+            } catch (error) {}
+          },
+          (error) => {
+            console.log(error);
           }
-        }, (error) => {
-          console.log(error);
-        });
+        );
       }, 3000);
       return () => clearInterval(intervalId);
     }
@@ -80,22 +84,24 @@ export default function ResponsiveInterface(props: Props) {
   };
 
   const items = [
-    { name: 'Current Latitude', value: currentLatitude },
-    { name: 'Current Longitude', value: currentLongitude },
-    { name: 'P10', value: 12 },
-    { name: 'P2.5', value: 123 },
-    { name: 'NO2', value: 1234 },
-    { name: 'O3', value: 1234 },
-    { name: 'SO2', value: 1234 },
-    { name: 'CO', value: 1234 },
-    { name: 'AQI', value: 1234 },
+    { name: "Current Latitude", value: currentLatitude },
+    { name: "Current Longitude", value: currentLongitude },
+    { name: "P10", value: 12 },
+    { name: "P2.5", value: 123 },
+    { name: "NO2", value: 1234 },
+    { name: "O3", value: 1234 },
+    { name: "SO2", value: 1234 },
+    { name: "CO", value: 1234 },
+    { name: "AQI", value: 1234 },
   ];
 
-  const handleCheckboxChange = (item, checked) => {
+  const handleCheckboxChange = (item: { name: any; }, checked: any) => {
     if (checked && !checkedItems.includes(item)) {
       setCheckedItems([...checkedItems, item]);
-    } else if(!checked){
-      setCheckedItems(checkedItems.filter((checkedItem) => checkedItem?.name !== item.name));
+    } else if (!checked) {
+      setCheckedItems(
+        checkedItems.filter((checkedItem) => checkedItem?.name !== item.name)
+      );
     }
   };
 
@@ -123,26 +129,71 @@ export default function ResponsiveInterface(props: Props) {
         <Typography variant="h7">From:</Typography>
       </Box>
       <br></br>
-        <TextField id="from-lon" label="Longitude" variant="outlined" value={lonFrom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonFrom(Number(event.target.value))} style={styles.input} />
-        <TextField id="from-lat" label="Latitude" variant="outlined" value={latFrom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLatFrom(Number(event.target.value))} style={styles.input} />
+      <TextField
+        id="from-lon"
+        label="Longitude"
+        variant="outlined"
+        value={lonFrom}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setLonFrom(Number(event.target.value))
+        }
+        style={styles.input}
+      />
+      <TextField
+        id="from-lat"
+        label="Latitude"
+        variant="outlined"
+        value={latFrom}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setLatFrom(Number(event.target.value))
+        }
+        style={styles.input}
+      />
       <Divider />
       <br></br>
-      <Box style={styles.stripe} >
-        <Typography variant="h7" >To:</Typography>
+      <Box style={styles.stripe}>
+        <Typography variant="h7">To:</Typography>
       </Box>
       <br></br>
-        <TextField id="to-lon" label="Longitude" variant="outlined" sx={{ padding: 2 }} value={lonTo} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLonTo(Number(event.target.value))} style={styles.input} />
-        <TextField id="to-lat" label="Latitude" variant="outlined" value={latTo} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLatTo(Number(event.target.value))} style={styles.input} />
-        <Box textAlign='center'>
-        <Button onClick={handleResetClick} style={styles.button}>Reset</Button>
-        <br></br>
-        <br></br>
-        <Button onClick={handleToggleToolbar} variant="contained" color="primary">
-         {toolbarVisible ? 'Hide Indicators' : 'Show Indicators'}
+      <TextField
+        id="to-lon"
+        label="Longitude"
+        variant="outlined"
+        sx={{ padding: 2 }}
+        value={lonTo}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setLonTo(Number(event.target.value))
+        }
+        style={styles.input}
+      />
+      <TextField
+        id="to-lat"
+        label="Latitude"
+        variant="outlined"
+        value={latTo}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setLatTo(Number(event.target.value))
+        }
+        style={styles.input}
+      />
+      <Box textAlign="center">
+        <Button onClick={handleResetClick} style={styles.button}>
+          Reset
         </Button>
-        <CollapsibleList items={items} onCheckboxChange={handleCheckboxChange} />
-        </Box>
-        
+        <br></br>
+        <br></br>
+        <Button
+          onClick={handleToggleToolbar}
+          variant="contained"
+          color="primary"
+        >
+          {toolbarVisible ? "Hide Indicators" : "Show Indicators"}
+        </Button>
+        <CollapsibleList
+          items={items}
+          onCheckboxChange={handleCheckboxChange}
+        />
+      </Box>
     </div>
   );
 
@@ -169,9 +220,13 @@ export default function ResponsiveInterface(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <UpperToolbar toolbarVisible={toolbarVisible} checkedItems = {checkedItems} > </UpperToolbar>
+          <UpperToolbar
+            toolbarVisible={toolbarVisible}
+            checkedItems={checkedItems}
+          >
+            {" "}
+          </UpperToolbar>
         </Toolbar>
-
       </AppBar>
       <Box
         component="nav"
@@ -216,9 +271,8 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <MapComponent from={[lonFrom,latFrom]} to={[lonFrom,latTo]} />
+        <MapComponent from={[lonFrom, latFrom]} to={[lonFrom, latTo]} />
       </Box>
-
     </Box>
   );
 }

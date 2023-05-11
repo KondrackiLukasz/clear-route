@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -8,14 +8,19 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./index.css";
 
-export default function CollapsibleList({ items, onCheckboxChange }) {
+type Props ={
+    items: Array<any>
+    onCheckboxChange: (item: any,checked: any) => void,
+}
+
+export default function CollapsibleList({ items, onCheckboxChange}:Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleCheckboxChange = (item, event) => {
+  const handleCheckboxChange = (item: [], event: { target: { checked: any; }; }) => {
     onCheckboxChange(item, event.target.checked);
   };
 
@@ -29,11 +34,11 @@ export default function CollapsibleList({ items, onCheckboxChange }) {
           <div key={index} style={{ alignSelf: 'start' }} className="checkbox-item">
             <Checkbox
               className="checkbox-input"
-              onChange={(event) =>
+              onChange={(event: { target: { checked: any; }; }) =>
                 handleCheckboxChange(item, event)
               }
             />
-            <span className="checkbox-label">{item.name}</span>
+            <span className="checkbox-label">{item?.name}</span>
           </div>
         ))}
       </AccordionDetails>

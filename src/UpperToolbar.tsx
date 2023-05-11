@@ -3,7 +3,7 @@ import { Key } from 'react';
 
 type UpperToolbarProps = {
     toolbarVisible: boolean;
-    checkedItems: never[]
+    checkedItems: Array<any>;
     children?: React.ReactNode;
   };
 
