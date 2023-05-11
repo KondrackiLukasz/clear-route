@@ -24,6 +24,13 @@ const stationIcon = L.AwesomeMarkers.icon({
     prefix: 'fa', // prefix for the icon, 'fa' for font-awesome
 });
 
+const DefaultIcon = L.AwesomeMarkers.icon({
+    icon: 'circle', // replace 'coffee' with the name of the icon you want to use
+    markerColor: 'blue', // replace 'red' with the color you want
+    prefix: 'fa', // prefix for the icon, 'fa' for font-awesome
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 export function MapComponent({from, to}: MapComponentProps) {
     const [waypoints, setWaypoints] = useState([from, to]);
