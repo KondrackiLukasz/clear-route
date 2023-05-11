@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import {useState} from "react";
+import {Component, useState} from "react";
 import {Station, useAllStations} from "./useAllStations.ts";
 import {haversineDistance} from "./useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
@@ -31,6 +31,42 @@ const DefaultIcon = L.AwesomeMarkers.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
+
+class MockedPopup extends Component<{ station: Station }> {
+    render() {
+        return <div>
+            <h4>Station ID: {this.props.station.idx}</h4>
+            <table>
+                <tbody>
+                <tr>
+                    <td>CO:</td>
+                    <td>6.7 µg/m³</td>
+                </tr>
+                <tr>
+                    <td>NO2:</td>
+                    <td>28.8 µg/m³</td>
+                </tr>
+                <tr>
+                    <td>O3:</td>
+                    <td>24.4 µg/m³</td>
+                </tr>
+                <tr>
+                    <td>PM10:</td>
+                    <td>57 µg/m³</td>
+                </tr>
+                <tr>
+                    <td>PM2.5:</td>
+                    <td>134 µg/m³</td>
+                </tr>
+                <tr>
+                    <td>SO2:</td>
+                    <td>3.6 µg/m³</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>;
+    }
+}
 
 export function MapComponent({from, to}: MapComponentProps) {
     const [waypoints, setWaypoints] = useState([from, to]);
@@ -61,9 +97,9 @@ export function MapComponent({from, to}: MapComponentProps) {
             {filteredStations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>
-                        Station ID: {station.idx} <br/>
-                        AQI: {station.aqi}
+                        <MockedPopup station={station}/>
                     </Popup>
+
                 </Marker>
             ))}
         </MapContainer>
