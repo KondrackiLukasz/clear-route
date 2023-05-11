@@ -8,8 +8,10 @@ import {useState} from "react";
 import {Station, useAllStations} from "./useAllStations.ts";
 import {haversineDistance} from "./useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
-import { Icon } from "leaflet";
+// import { Icon } from "leaflet";
 import L from 'leaflet';
+import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
+import 'leaflet.awesome-markers';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -30,12 +32,12 @@ export interface MapComponentProps {
     to: LatLngTuple;
 }
 
-const stationIcon = new Icon({
-    iconUrl: "/images/station.png",
-    iconSize: [25, 41], // size of the icon, you might need to adjust this
-    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location, you might need to adjust this
-    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor, you might need to adjust this
+const stationIcon = L.AwesomeMarkers.icon({
+    icon: 'coffee', // replace 'coffee' with the name of the icon you want to use
+    markerColor: 'red', // replace 'red' with the color you want
+    prefix: 'fa', // prefix for the icon, 'fa' for font-awesome
 });
+
 
 export function MapComponent({from, to}: MapComponentProps) {
     const [waypoints, setWaypoints] = useState([from, to]);
