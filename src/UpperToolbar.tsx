@@ -15,11 +15,14 @@ export default function UpperToolbar({ checkedItems, toolbarVisible, children  }
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {checkedItems.map((item: { name: any; value: any; }, index: Key | null | undefined) => (
           <div key={index} className="checkbox-item">
-            <TextField
-              label = {item.name}
-              value = {item.value}
-              disabled
-            />
+            <strong><span>
+              {item.name}:
+            </span>
+            </strong>
+            <br></br>
+            <span>
+              {item.value} 
+            </span>
           </div>
         ))}
           </Box>

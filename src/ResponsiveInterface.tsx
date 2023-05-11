@@ -83,8 +83,8 @@ export default function ResponsiveInterface(props: Props) {
     { name: 'Current Latitude', value: currentLatitude },
     { name: 'Current Longitude', value: currentLongitude },
     { name: 'P10', value: 12 },
-    { name: 'P25', value: 123 },
-    { name: 'Air Quality Index', value: 1234 },
+    { name: 'P2.5', value: 123 },
+    { name: 'AQI', value: 1234 },
   ];
 
   const handleCheckboxChange = (item, checked) => {

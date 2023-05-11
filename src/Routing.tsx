@@ -15,6 +15,7 @@ export function Routing({from, to, setWaypoints}: MapComponentProps) {
             waypoints: [L.latLng(from[0], from[1]), L.latLng(to[0], to[1])],
             routeWhileDragging: false,
             showAlternatives: false,
+            fitSelectedRoutes: false,
             lineOptions: {
                 extendToWaypoints: true,
                 missingRouteTolerance: 0.0,
