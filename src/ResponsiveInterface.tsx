@@ -126,7 +126,7 @@ export default function ResponsiveInterface(props: Props) {
   const drawer = (
     <div>
       <Box style={styles.stripe}>
-        <Typography variant="h7">From:</Typography>
+        <Typography variant="h6">From:</Typography>
       </Box>
       <br></br>
       <TextField
@@ -152,7 +152,7 @@ export default function ResponsiveInterface(props: Props) {
       <Divider />
       <br></br>
       <Box style={styles.stripe}>
-        <Typography variant="h7">To:</Typography>
+        <Typography variant="h6">To:</Typography>
       </Box>
       <br></br>
       <TextField
