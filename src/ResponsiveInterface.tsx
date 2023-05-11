@@ -84,6 +84,10 @@ export default function ResponsiveInterface(props: Props) {
     { name: 'Current Longitude', value: currentLongitude },
     { name: 'P10', value: 12 },
     { name: 'P2.5', value: 123 },
+    { name: 'NO2', value: 1234 },
+    { name: 'O3', value: 1234 },
+    { name: 'SO2', value: 1234 },
+    { name: 'CO', value: 1234 },
     { name: 'AQI', value: 1234 },
   ];
 
