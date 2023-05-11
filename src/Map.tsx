@@ -13,20 +13,6 @@ import L from 'leaflet';
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import icon from 'leaflet/dist/images/marker-icon.png';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-const DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
-
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
@@ -54,7 +40,6 @@ export function MapComponent({from, to}: MapComponentProps) {
 
     // const stations = useNearStations(waypoints, radius);
 
-    console.log(stations)
     return (
         <MapContainer
             center={from}
