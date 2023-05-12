@@ -5,7 +5,7 @@ type Props ={
 }
 
 export default  function CollapsibleListForecasting({onRangeChange}:Props){
- const handleInputChange = (event: { target: { value: number; }; }) => {
+ const handleInputChange = (event: { target: { value: any; }; }) => {
         onRangeChange(event.target.value);
       };
     
