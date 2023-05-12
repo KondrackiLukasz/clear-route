@@ -1,5 +1,4 @@
-import { Toolbar, Box, Grid } from "@mui/material";
-import { Key } from "react";
+import { Box, Grid } from "@mui/material";
 
 type UpperToolbarProps = {
   toolbarVisible: boolean;

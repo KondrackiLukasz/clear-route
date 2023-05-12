@@ -29,6 +29,7 @@ export default function ResponsiveInterface(props: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   //Forecasting 
   const [range,setRange] = React.useState(1);
+  console.log(range)
   //From, To on the left toolbar
   const [lonFrom, setLonFrom] = React.useState(initialLonFrom);
   const [latFrom, setLatFrom] = React.useState(initialLatFrom);
