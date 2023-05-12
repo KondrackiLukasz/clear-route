@@ -108,7 +108,7 @@ export default function ResponsiveInterface(props: Props) {
          {toolbarVisible ? 'Hide Upper Toolbar' : 'Show Upper Toolbar'}
         </Button>
         </Box>
-        
+
     </div>
   );
 
@@ -136,7 +136,7 @@ export default function ResponsiveInterface(props: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            GeoApp
+            Clear Route
           </Typography>
         </Toolbar>
       </AppBar>
