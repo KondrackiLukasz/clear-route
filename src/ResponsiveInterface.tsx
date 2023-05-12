@@ -51,11 +51,11 @@ export default function ResponsiveInterface(props: Props) {
             try {
               for (let i = 0; i < checkedItems.length; i++) {
                 if ('name' in checkedItems[i] && 'value' in checkedItems[i]) {
-                  if (checkedItems[i].name === "Current Latitude") 
+                  if (checkedItems[i].name === "Current Latitude")
                   {
                     checkedItems[i].value = position.coords.latitude;
-                  } 
-                  else if (checkedItems[i].name === "Current Longitude") 
+                  }
+                  else if (checkedItems[i].name === "Current Longitude")
                   {
                     checkedItems[i].value = position.coords.longitude;
                   }
@@ -220,6 +220,7 @@ export default function ResponsiveInterface(props: Props) {
           >
             <MenuIcon />
           </IconButton>
+            Clear Route
           <UpperToolbar
             toolbarVisible={toolbarVisible}
             checkedItems={checkedItems}
