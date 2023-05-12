@@ -12,6 +12,9 @@ import Typography from "@mui/material/Typography";
 import { MapComponent } from "./Map";
 import UpperToolbar from "./UpperToolbar";
 import CollapsibleList from "./CollapsibleList";
+import CollapsibleListCheckboxes from "./CollapsibleListCheckboxes";
+import CollapsibleListForecasting from "./CollapsibleListForecasting";
+import ForecastingToolbar from "./ForecastingToolbar";
 
 const drawerWidth = 200;
 const initialLonFrom = 54.3842;
@@ -24,7 +27,8 @@ interface Props {
 export default function ResponsiveInterface(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  //Forecasting 
+  const [range,setRange] = React.useState(1);
   //From, To on the left toolbar
   const [lonFrom, setLonFrom] = React.useState(initialLonFrom);
   const [latFrom, setLatFrom] = React.useState(initialLatFrom);
@@ -48,26 +52,8 @@ export default function ResponsiveInterface(props: Props) {
           (position) => {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
-            try {
-              for (let i = 0; i < checkedItems.length; i++) {
-                if ('name' in checkedItems[i] && 'value' in checkedItems[i]) {
-                  if (checkedItems[i].name === "Current Latitude") 
-                  {
-                    checkedItems[i].value = position.coords.latitude;
-                  } 
-                  else if (checkedItems[i].name === "Current Longitude") 
-                  {
-                    checkedItems[i].value = position.coords.longitude;
-                  }
-                }
-              }
-            } catch (error) {}
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      }, 300000);
+          });
+      }, 1000,true);
       return () => clearInterval(intervalId);
     }
   }, []);
@@ -84,8 +70,8 @@ export default function ResponsiveInterface(props: Props) {
   };
 
   const items = [
-    { name: "Current Latitude", value: currentLatitude },
-    { name: "Current Longitude", value: currentLongitude },
+    { name: "Latitude", value: currentLatitude},
+    { name: "Longitude", value: currentLongitude },
     { name: "P10", value: 12 },
     { name: "P2.5", value: 123 },
     { name: "NO2", value: 1234 },
@@ -104,6 +90,10 @@ export default function ResponsiveInterface(props: Props) {
       );
     }
   };
+
+  const handleRangeChange = (value:number) => {
+    setRange(value);
+  }
 
   const styles = {
     input: {
@@ -189,9 +179,13 @@ export default function ResponsiveInterface(props: Props) {
         >
           {toolbarVisible ? "Hide Indicators" : "Show Indicators"}
         </Button>
+        <CollapsibleList 
+          title="Visible parameters"
+          children = {<CollapsibleListCheckboxes items={items} onCheckboxChange={handleCheckboxChange}></CollapsibleListCheckboxes>}
+        />
         <CollapsibleList
-          items={items}
-          onCheckboxChange={handleCheckboxChange}
+          title="Forecasting period"
+          children = {<CollapsibleListForecasting onRangeChange={handleRangeChange}></CollapsibleListForecasting>}
         />
       </Box>
     </div>
@@ -226,14 +220,15 @@ export default function ResponsiveInterface(props: Props) {
           >
             {" "}
           </UpperToolbar>
+
         </Toolbar>
+        <ForecastingToolbar toolbarVisible={toolbarVisible}></ForecastingToolbar>
       </AppBar>
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
