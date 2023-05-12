@@ -1,39 +1,30 @@
-import { Toolbar, TextField, Box } from '@mui/material';
+import { Toolbar, Box } from '@mui/material';
+import { Key } from 'react';
 
 type UpperToolbarProps = {
     toolbarVisible: boolean;
-    currentLongitude: number;
-    currentLatitude: number;
+    checkedItems: Array<any>;
     children?: React.ReactNode;
   };
 
-function UpperToolbar({ toolbarVisible, currentLongitude, currentLatitude, children  }: UpperToolbarProps) {
-
+export default function UpperToolbar({ checkedItems, toolbarVisible, children  }: UpperToolbarProps) {
   return (
     <>
       {toolbarVisible && (
         <Toolbar>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <TextField
-              label="Current Longitude"
-              value={currentLongitude}
-              disabled
-            />
-            <TextField
-              label="Current Latitude"
-              value={currentLatitude}
-              disabled
-            />
-              <TextField
-              label="P1"
-              value={currentLatitude}
-              disabled
-            />
-              <TextField
-              label="P1"
-              value={currentLatitude}
-              disabled
-            />
+          {checkedItems.map((item: { name: any; value: any; }, index: Key | null | undefined) => (
+          <div key={index} className="checkbox-item">
+            <strong><span>
+              {item.name}:
+            </span>
+            </strong>
+            <br></br>
+            <span>
+              {item.value} 
+            </span>
+          </div>
+        ))}
           </Box>
         </Toolbar>
       )}
@@ -41,5 +32,3 @@ function UpperToolbar({ toolbarVisible, currentLongitude, currentLatitude, child
     </>
   );
 }
-
-export default UpperToolbar;
