@@ -1,12 +1,12 @@
 import {TextField } from "@mui/material"
 
 type Props ={
-    onRangeChange: (value:number) => void,
+    onRangeChange: (value:any) => void,
 }
 
 export default  function CollapsibleListForecasting({onRangeChange}:Props){
  const handleInputChange = (event: { target: { value: number; }; }) => {
-        onRangeChange(Number(event.target.value));
+        onRangeChange(event.target.value);
       };
     
   return (
