@@ -214,6 +214,7 @@ export default function ResponsiveInterface(props: Props) {
           >
             <MenuIcon />
           </IconButton>
+            Clear Route
           <UpperToolbar
             toolbarVisible={toolbarVisible}
             checkedItems={checkedItems}
