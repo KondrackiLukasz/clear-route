@@ -27,7 +27,7 @@ interface Props {
 export default function ResponsiveInterface(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  //Forecasting 
+  //Forecasting
   const [range,setRange] = React.useState(1);
   console.log(range)
   //From, To on the left toolbar
@@ -180,7 +180,7 @@ export default function ResponsiveInterface(props: Props) {
         >
           {toolbarVisible ? "Hide Indicators" : "Show Indicators"}
         </Button>
-        <CollapsibleList 
+        <CollapsibleList
           title="Visible parameters"
           children = {<CollapsibleListCheckboxes items={items} onCheckboxChange={handleCheckboxChange}></CollapsibleListCheckboxes>}
         />
@@ -215,7 +215,6 @@ export default function ResponsiveInterface(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-            Clear Route
           <UpperToolbar
             toolbarVisible={toolbarVisible}
             checkedItems={checkedItems}
