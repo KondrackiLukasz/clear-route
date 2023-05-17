@@ -1,14 +1,11 @@
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-// import {useAllStations} from "./useAllStations.ts";
-// import { Icon } from "leaflet";
 import L, {LatLngTuple} from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import {Component, useMemo, useState} from "react";
+import {Component, useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
-import {useNearStations} from "./backend/useNearStations.ts";
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
 
@@ -17,6 +14,7 @@ export interface MapComponentProps {
     to: LatLngTuple;
     setFrom: (from: LatLngTuple) => void;
     setTo: (to: LatLngTuple) => void;
+    stations: Station[];
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -69,7 +67,7 @@ class MockedPopup extends Component<{ station: Station }> {
     }
 }
 
-export function MapComponent({from, to, setFrom, setTo}: MapComponentProps) {
+export function MapComponent({from, to, setFrom, setTo, stations}: MapComponentProps) {
     const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
     const zoom = 13;
 
@@ -78,8 +76,7 @@ export function MapComponent({from, to, setFrom, setTo}: MapComponentProps) {
     routeCoordinates.slice(2,2);
 
 
-    const waypoints = useMemo(() => [from, to], [from, to]);
-    const stations: Station[] = useNearStations(waypoints);
+    // const waypoints = useMemo(() => [from, to], [from, to]);
     return (
         <MapContainer
             center={from}
