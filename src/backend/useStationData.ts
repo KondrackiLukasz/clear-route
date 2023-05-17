@@ -92,20 +92,18 @@ export function useStationData(stations: Station[]) {
 
     useEffect(() => {
         const fetchStationData = async () => {
-            const data: StationDetails[] = [];
-
-            for (const station of stations) {
+            const fetchPromises = stations.map(async (station) => {
                 const url = `https://api.waqi.info/feed/@${station.idx}/?token=9249e672bc03b2494df5a83bb22f9c17cff4b4f9`;
-
                 const response = await fetch(url);
                 const stationData = await response.json();
-
                 if (stationData.status === 'ok') {
-                    data.push(stationData.data);
+                    return stationData.data;
                 }
-            }
+            });
 
-            setStationData(data);
+            const data = await Promise.all(fetchPromises);
+            const filteredData = data.filter(Boolean); // Remove undefined values
+            setStationData(filteredData);
         };
 
         fetchStationData();

@@ -25,6 +25,7 @@ export function Routing({
             routeWhileDragging: false,
             showAlternatives: false,
             fitSelectedRoutes: false,
+
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             createMarker: function (i, start) {

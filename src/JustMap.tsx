@@ -2,6 +2,7 @@ import {MapComponent} from "./Map.tsx";
 import * as React from "react";
 import {Station} from "./backend/useAllStations.ts";
 import {useNearStations} from "./backend/useNearStations.ts";
+import {useStationData} from "./backend/useStationData.ts";
 
 const initialLonFrom = 54.3842;
 const initialLatFrom = 18.5922;
@@ -16,6 +17,7 @@ export function JustMap() {
 
 
     const stations: Station[] = useNearStations([[lonFrom, latFrom], [lonTo, latTo]]);
+    const stationsData = useStationData(stations);
 
     return (
         <MapComponent
@@ -29,6 +31,8 @@ export function JustMap() {
                 setLatTo(L[0]);
                 setLonTo(L[1]);
             }}
-            stations={stations}/>
+            stations={stations}
+            stationsData={stationsData}
+        />
     )
 }

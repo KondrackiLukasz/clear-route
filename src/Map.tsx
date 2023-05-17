@@ -4,10 +4,12 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import {Component, useState} from "react";
+import {useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
+import {StationDetails} from "./backend/useStationData.ts";
+import {StationPopup} from "./StationPopup.tsx";
 
 export interface MapComponentProps {
     from: LatLngTuple;
@@ -15,6 +17,7 @@ export interface MapComponentProps {
     setFrom: (from: LatLngTuple) => void;
     setTo: (to: LatLngTuple) => void;
     stations: Station[];
+    stationsData: StationDetails[];
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -31,56 +34,15 @@ const DefaultIcon = L.AwesomeMarkers.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-class MockedPopup extends Component<{ station: Station }> {
-    render() {
-        return <div>
-            <h4>Station ID: {this.props.station.idx}</h4>
-            <table>
-                <tbody>
-                <tr>
-                    <td>CO:</td>
-                    <td>6.7 µg/m³</td>
-                </tr>
-                <tr>
-                    <td>NO2:</td>
-                    <td>28.8 µg/m³</td>
-                </tr>
-                <tr>
-                    <td>O3:</td>
-                    <td>24.4 µg/m³</td>
-                </tr>
-                <tr>
-                    <td>PM10:</td>
-                    <td>57 µg/m³</td>
-                </tr>
-                <tr>
-                    <td>PM2.5:</td>
-                    <td>134 µg/m³</td>
-                </tr>
-                <tr>
-                    <td>SO2:</td>
-                    <td>3.6 µg/m³</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>;
-    }
-}
-
-export function MapComponent({from, to, setFrom, setTo, stations}: MapComponentProps) {
-    const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
-    const zoom = 13;
+export function MapComponent({from, to, setFrom, setTo, stations, stationsData}: MapComponentProps) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, setRouteCoordinates] = useState<LatLngTuple[]>([]);
 
 
-    // Just for annoying linter
-    routeCoordinates.slice(2,2);
-
-
-    // const waypoints = useMemo(() => [from, to], [from, to]);
     return (
         <MapContainer
             center={from}
-            zoom={zoom}
+            zoom={13}
             // style={{height: "100%", width: "100%"}}
             style={{height: "100%", width: "100%"}}
         >
@@ -89,11 +51,11 @@ export function MapComponent({from, to, setFrom, setTo, stations}: MapComponentP
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Routing from={from} to={to} setRouteCoordinates={setRouteCoordinates} setFrom={setFrom} setTo={setTo} />
+            <Routing from={from} to={to} setRouteCoordinates={setRouteCoordinates} setFrom={setFrom} setTo={setTo}/>
             {stations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>
-                        <MockedPopup station={station}/>
+                        <StationPopup station={station} stationData={stationsData.find(sD => sD.idx === station.idx)}/>
                     </Popup>
                 </Marker>
             ))}
