@@ -1,15 +1,14 @@
-import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
-import {LatLngTuple} from "leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+// import {useAllStations} from "./useAllStations.ts";
+// import { Icon } from "leaflet";
+import L, {LatLngTuple} from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
 import {Component, useMemo, useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
-import { useNearStations} from "./backend/useNearStations.ts";
-// import {useAllStations} from "./useAllStations.ts";
-// import { Icon } from "leaflet";
-import L from 'leaflet';
+import {useNearStations} from "./backend/useNearStations.ts";
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
 
@@ -71,25 +70,29 @@ class MockedPopup extends Component<{ station: Station }> {
 }
 
 export function MapComponent({from, to, setFrom, setTo}: MapComponentProps) {
-    const [plan, setPlan] = useState<L.Routing.Plan | null>(null);
+    const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
     const zoom = 13;
 
 
-    const radius = 1000;
+    // Just for annoying linter
+    routeCoordinates.slice(2,2);
+
+
     const waypoints = useMemo(() => [from, to], [from, to]);
-    const stations: Station[] = useNearStations(waypoints, radius);
+    const stations: Station[] = useNearStations(waypoints);
     return (
         <MapContainer
             center={from}
             zoom={zoom}
-            style={{height: "100%", width: "100%"}}
+            // style={{height: "100%", width: "100%"}}
+            style={{height: "2000%", width: "100%"}}
         >
             <TileLayer
                 keepBuffer={10}
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Routing from={from} to={to} setPlan={setPlan} setFrom={setFrom} setTo={setTo} />
+            <Routing from={from} to={to} setRouteCoordinates={setRouteCoordinates} setFrom={setFrom} setTo={setTo} />
             {stations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>

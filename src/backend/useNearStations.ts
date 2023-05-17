@@ -8,7 +8,7 @@ export interface Station {
     lng: number;
 }
 
-export function useNearStations(waypoints: LatLngTuple[], radius: number) {
+export function useNearStations(waypoints: LatLngTuple[]) {
     const [stations, setStations] = useState<Station[]>([]);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export function useNearStations(waypoints: LatLngTuple[], radius: number) {
         };
 
         fetchStations();
-    }, [waypoints, radius]);
+    }, [waypoints]);
 
     return stations;
 }

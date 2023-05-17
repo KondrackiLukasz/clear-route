@@ -1,11 +1,11 @@
 import {useMap} from "react-leaflet";
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import L, {LatLngTuple} from "leaflet";
 
 export interface RoutingComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
-    setPlan: (Plan: L.Routing.Plan) => void;
+    setRouteCoordinates: (Plan: LatLngTuple[]) => void;
     setFrom: (from: LatLngTuple) => void;
     setTo: (to: LatLngTuple) => void;
 }
@@ -13,7 +13,7 @@ export interface RoutingComponentProps {
 export function Routing({
                             from,
                             to,
-                            setPlan,
+                            setRouteCoordinates,
                             setFrom,
                             setTo,
                         }: RoutingComponentProps) {
@@ -59,7 +59,10 @@ export function Routing({
             },
         }).addTo(map);
 
-        setPlan(routingControl.getPlan());
+        routingControl.on('routeselected', function(e) {
+            const coordinates = e.route.coordinates as LatLngTuple[];
+            setRouteCoordinates(coordinates);
+        });
 
         return () => {
             map.removeControl(routingControl);
