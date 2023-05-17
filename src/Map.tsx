@@ -5,8 +5,8 @@ import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
 import {Component, useState} from "react";
-import {Station, useAllStations} from "./useAllStations.ts";
-import {haversineDistance} from "./useNearStations.ts";
+import {Station} from "./backend/useAllStations.ts";
+import { useNearStations} from "./backend/useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
 // import { Icon } from "leaflet";
 import L from 'leaflet';
@@ -73,14 +73,9 @@ export function MapComponent({from, to}: MapComponentProps) {
     const zoom = 13;
 
     const radius = 1000;
-    const stations: Station[] = useAllStations(waypoints, radius);
+    const stations: Station[] = useNearStations(waypoints, radius);
 
-    const filteredStations = stations.filter((station) =>
-        waypoints.some((waypoint) =>
-            haversineDistance(waypoint[0], waypoint[1], station.lat, station.lng) <= radius
-        )
-    );
-
+    console.log(stations);
     return (
         <MapContainer
             center={from}
@@ -92,7 +87,7 @@ export function MapComponent({from, to}: MapComponentProps) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Routing from={from} to={to} setWaypoints={setWaypoints}/>
-            {filteredStations.map((station) => (
+            {stations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>
                         <MockedPopup station={station}/>

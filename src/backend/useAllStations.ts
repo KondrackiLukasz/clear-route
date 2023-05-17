@@ -8,7 +8,6 @@ export interface Station {
     lng: number;
 }
 
-
 export function useAllStations(waypoints: LatLngTuple[], radius: number) {
     const [stations, setStations] = useState<Station[]>([]);
 
