@@ -85,7 +85,7 @@ export function MapComponent({from, to, setFrom, setTo}: MapComponentProps) {
             center={from}
             zoom={zoom}
             // style={{height: "100%", width: "100%"}}
-            style={{height: "2000%", width: "100%"}}
+            style={{height: "100%", width: "100%"}}
         >
             <TileLayer
                 keepBuffer={10}

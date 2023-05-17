@@ -9,7 +9,7 @@ import { Button, TextField } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { MapComponent } from "./Map";
+// import { MapComponent } from "./Map";
 import UpperToolbar from "./UpperToolbar";
 import CollapsibleList from "./CollapsibleList";
 import CollapsibleListCheckboxes from "./CollapsibleListCheckboxes";
@@ -267,13 +267,13 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-          <MapComponent from={[lonFrom, latFrom]} to={[lonTo, latTo]} setFrom={L => {
-              setLatFrom(L[0]);
-              setLonFrom(L[1]);
-          }}  setTo={L => {
-              setLatTo(L[0]);
-              setLonTo(L[1]);
-          }} />
+          {/*<MapComponent from={[lonFrom, latFrom]} to={[lonTo, latTo]} setFrom={L => {*/}
+          {/*    setLatFrom(L[0]);*/}
+          {/*    setLonFrom(L[1]);*/}
+          {/*}}  setTo={L => {*/}
+          {/*    setLatTo(L[0]);*/}
+          {/*    setLonTo(L[1]);*/}
+          {/*}} />*/}
       </Box>
     </Box>
   );
