@@ -21,18 +21,18 @@ export function JustMap() {
 
     return (
         <MapComponent
-            from={[lonFrom, latFrom]}
-            to={[lonTo, latTo]}
-            setFrom={L => {
-                setLatFrom(L[0]);
-                setLonFrom(L[1]);
-            }}
-            setTo={L => {
-                setLatTo(L[0]);
-                setLonTo(L[1]);
-            }}
-            stations={stations}
-            stationsData={stationsData}
-        />
+        from={[lonFrom, latFrom]}
+        to={[lonTo, latTo]}
+        setFrom={(L: React.SetStateAction<number>[]) => {
+            setLatFrom(L[0]);
+            setLonFrom(L[1]);
+        }}
+        setTo={(L: React.SetStateAction<number>[]) => {
+            setLatTo(L[0]);
+            setLonTo(L[1]);
+        }}
+        stations={stations}
+        stationsData = {stationsData}
+        toolbarVisible = {false}/>
     )
 }

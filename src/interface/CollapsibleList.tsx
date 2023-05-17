@@ -5,7 +5,7 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./index.css";
+import "../index.css";
 
 type Props ={
     title:string,

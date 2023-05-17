@@ -1,0 +1,14 @@
+.checkbox-item {
+    transition: background-color 0.5s;
+  }
+  
+  .checkbox-item.selected {
+    background-color: rgb(35, 105, 209);
+  }
+  
+  .checkbox-item-details {
+    width: 100%;
+    height: 200px; /* adjust as needed */
+    overflow: auto; /* enable scrolling if content is too long */
+    border-top: 1px solid black;
+  }

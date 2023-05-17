@@ -1,4 +1,4 @@
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L, {LatLngTuple} from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
@@ -18,6 +18,7 @@ export interface MapComponentProps {
     setTo: (to: LatLngTuple) => void;
     stations: Station[];
     stationsData: StationDetails[];
+    toolbarVisible: boolean;
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -34,17 +35,35 @@ const DefaultIcon = L.AwesomeMarkers.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export function MapComponent({from, to, setFrom, setTo, stations, stationsData}: MapComponentProps) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+function SetHeightOnChange({ height }:any) {
+    const map = useMap();
+
+    const mapContainer = map.getContainer();
+    mapContainer.style.cssText = `height: ${height}vh; position: relative;`;
+
+    return null;
+  }
+
+function calculateHeight(visible:boolean){
+    console.log(visible);
+    if (window.innerWidth <= 600) {
+        return visible ? '50' : '85';
+      } 
+    else {
+        return visible ? '50' : '84';  
+    }
+}
+
+export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible}: MapComponentProps) {
     const [_, setRouteCoordinates] = useState<LatLngTuple[]>([]);
-
-
+    const adjustedHeight = calculateHeight(toolbarVisible);
+    
     return (
+        <div>
         <MapContainer
             center={from}
             zoom={13}
-            // style={{height: "100%", width: "100%"}}
-            style={{height: "100%", width: "100%"}}
+            style={{ height: {adjustedHeight} +"vh" ,width: '100%' }}
         >
             <TileLayer
                 keepBuffer={10}
@@ -59,6 +78,9 @@ export function MapComponent({from, to, setFrom, setTo, stations, stationsData}:
                     </Popup>
                 </Marker>
             ))}
+            <SetHeightOnChange height={adjustedHeight} />
         </MapContainer>
+
+        </div>
     );
 }

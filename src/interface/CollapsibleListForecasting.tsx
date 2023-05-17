@@ -10,7 +10,7 @@ export default  function CollapsibleListForecasting({onRangeChange}:Props){
       };
     
   return (
-      <div>
+      <div style={{width:"11vw"}}>
             <TextField id="filled-basic" label="Days to forecast" variant="filled" onChange={handleInputChange}/>
       </div>
   );
