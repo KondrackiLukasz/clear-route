@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import {Component, useState} from "react";
+import {Component, useMemo, useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
 import { useNearStations} from "./backend/useNearStations.ts";
 // import {useAllStations} from "./useAllStations.ts";
@@ -16,6 +16,8 @@ import 'leaflet.awesome-markers';
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
+    setFrom: (from: LatLngTuple) => void;
+    setTo: (to: LatLngTuple) => void;
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -68,25 +70,26 @@ class MockedPopup extends Component<{ station: Station }> {
     }
 }
 
-export function MapComponent({from, to}: MapComponentProps) {
-    const [waypoints, setWaypoints] = useState([from, to]);
+export function MapComponent({from, to, setFrom, setTo}: MapComponentProps) {
+    const [plan, setPlan] = useState<L.Routing.Plan | null>(null);
     const zoom = 13;
 
-    const radius = 1000;
-    const stations: Station[] = useNearStations(waypoints, radius);
 
-    console.log(stations);
+    const radius = 1000;
+    const waypoints = useMemo(() => [from, to], [from, to]);
+    const stations: Station[] = useNearStations(waypoints, radius);
     return (
         <MapContainer
             center={from}
             zoom={zoom}
-            style={{height: "2000%", width: "100%"}}
+            style={{height: "100%", width: "100%"}}
         >
             <TileLayer
+                keepBuffer={10}
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Routing from={from} to={to} setWaypoints={setWaypoints}/>
+            <Routing from={from} to={to} setPlan={setPlan} setFrom={setFrom} setTo={setTo} />
             {stations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>

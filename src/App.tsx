@@ -1,10 +1,11 @@
 import mapStyles from './map.module.css';
-import ResponsiveInterface from './ResponsiveInterface';
+import {JustMap} from "./JustMap.tsx";
 
 export function App() {
     return (
         <div className={mapStyles.mapContainer}>
-            <ResponsiveInterface></ResponsiveInterface>
+            {/*<ResponsiveInterface></ResponsiveInterface>*/}
+            <JustMap/>
         </div>
     );
 }

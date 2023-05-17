@@ -267,7 +267,13 @@ export default function ResponsiveInterface(props: Props) {
         sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <MapComponent from={[lonFrom, latFrom]} to={[lonFrom, latTo]} />
+        <MapComponent from={[lonFrom, latFrom]} to={[lonTo, latTo]} setFrom={L => {
+            setLatFrom(L[0]);
+            setLonFrom(L[1]);
+        }}  setTo={L => {
+            setLatTo(L[0]);
+            setLonTo(L[1]);
+        }} />
       </Box>
     </Box>
   );
