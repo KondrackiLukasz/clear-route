@@ -1,0 +1,45 @@
+import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import { StationDetails } from '../backend/useStationData';
+
+
+type HorizontalAccordionProps = {
+  title: string;
+  forecastingData: StationDetails | null;
+};
+
+type ForecastItem = {
+  avg: number;
+  day: string;
+  max: number;
+  min: number;
+};
+
+export default function HorizontalAccordion({
+  title,
+  forecastingData,
+}: HorizontalAccordionProps) {
+  const [forecast, setForecast] = useState<ForecastItem[] | null>(null);
+
+  useEffect(() => {
+    if(title === "o3") { setForecast(forecastingData?.forecast.daily.o3 || null);}
+    else if(title === "pm25") { setForecast(forecastingData?.forecast.daily.pm25 || null);}
+    else if(title === "pm10") { setForecast(forecastingData?.forecast.daily.pm10 || null);}
+  }, [title, forecastingData]);
+  console.log(forecastingData)
+  console.log("FORECAST")
+  console.log(forecast);
+  return (
+    <div>
+      {forecast && <Typography variant="h5">{title}</Typography>}
+      <div>
+        {forecast && forecast.map((item, index) => (
+          <div key={index}>
+            <Typography>{item.day}</Typography>
+            <Typography>Avg: {item.avg}</Typography>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
+import {Box} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "../index.css";
 
@@ -20,13 +21,15 @@ export default function CollapsibleList({title, children}:Props) {
   };
 
   return (
-    <div className = "CollapsibleList">
+    <div className = "CollapsibleList" style={{display:"flex"}}>
     <Accordion expanded={isOpen} onChange={handleToggle}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         {title}
       </AccordionSummary>
       <AccordionDetails>
-        {children}
+        <Box display="flex">
+          {children}
+        </Box>
       </AccordionDetails>
     </Accordion>
     

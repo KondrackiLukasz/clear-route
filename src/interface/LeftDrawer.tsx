@@ -34,7 +34,6 @@ export default function LeftDrawer(props: { lonFrom: any; setLonFrom: (arg0: num
     return (
     <div>
     <Box>
-        {/* <Typography variant="h6" style = {styles.typography}>From:</Typography> */}
         <Typography variant="h6" >From:</Typography>
     </Box>
     <br></br>
@@ -62,10 +61,10 @@ export default function LeftDrawer(props: { lonFrom: any; setLonFrom: (arg0: num
     <Divider />
     <br></br>
     <Box>
-        {/* <Typography variant="h6" style = {styles.typography}>To:</Typography> */}
         <Typography variant="h6" >To:</Typography>
     </Box>
     <br></br>
+    <div style={{backgroundColor:""}}>
     <TextField
         id="to-lon"
         label="Longitude"
@@ -76,6 +75,7 @@ export default function LeftDrawer(props: { lonFrom: any; setLonFrom: (arg0: num
         }
         style={styles.input}
     />
+    </div>
     <br></br>
     <TextField
         id="to-lat"
