@@ -22,9 +22,9 @@ export default function HorizontalAccordion({
   const [forecast, setForecast] = useState<ForecastItem[] | null>(null);
 
   useEffect(() => {
-    if(title === "o3") { setForecast(forecastingData?.forecast.daily.o3 || null);}
-    else if(title === "pm25") { setForecast(forecastingData?.forecast.daily.pm25 || null);}
-    else if(title === "pm10") { setForecast(forecastingData?.forecast.daily.pm10 || null);}
+    if(title === "O3") { setForecast(forecastingData?.forecast?.daily?.o3 || null);}
+    else if(title === "PM2.5") { setForecast(forecastingData?.forecast.daily?.pm25 || null);}
+    else if(title === "PM10") { setForecast(forecastingData?.forecast?.daily?.pm10 || null);}
   }, [title, forecastingData]);
   console.log(forecastingData)
   console.log("FORECAST")
