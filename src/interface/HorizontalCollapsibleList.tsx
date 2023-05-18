@@ -26,9 +26,7 @@ export default function HorizontalAccordion({
     else if(title === "PM2.5") { setForecast(forecastingData?.forecast.daily?.pm25 || null);}
     else if(title === "PM10") { setForecast(forecastingData?.forecast?.daily?.pm10 || null);}
   }, [title, forecastingData]);
-  console.log(forecastingData)
-  console.log("FORECAST")
-  console.log(forecast);
+
   return (
     <div>
       {forecast && <Typography variant="h5">{title}</Typography>}
