@@ -46,13 +46,13 @@ function SetHeightOnChange({ height }:any) {
 
 function calculateHeight(visible:boolean){
     if (window.innerWidth <= 375) {
-        return visible ? '30' : '85';
+        return visible ? '60' : '85';
       } 
     else if (window.innerWidth <= 600) {
-        return visible ? '40' : '85';
+        return visible ? '50' : '85';
       } 
     else {
-        return visible ? '50' : '86.5';  
+        return visible ? '75' : '86.5';  
     }
 }
 

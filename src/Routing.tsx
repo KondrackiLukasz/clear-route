@@ -36,12 +36,12 @@ export function Routing({
                     // THIS NEEDS TO BE SWAPPED FOR SOME REASON
                     const newLatLng = [marker.getLatLng().lng, marker.getLatLng().lat] as LatLngTuple;
                     if (i === 0) {
-                        console.log(i)
-                        console.log(marker.getLatLng())
+                        //console.log(i)
+                        //console.log(marker.getLatLng())
                         setFrom(newLatLng);
                     } else {
-                        console.log(i)
-                        console.log(marker.getLatLng())
+                        //console.log(i)
+                        //console.log(marker.getLatLng())
                         setTo(newLatLng);
                     }
                     const newWaypoint = L.Routing.waypoint(L.latLng(newLatLng[0], newLatLng[1]));
