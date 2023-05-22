@@ -27,6 +27,7 @@ export default function ResponsiveInterface() {
   const [toolbarVisible, setToolbarVisible] = React.useState(false);
   const [checkedItems, setCheckedItems] = React.useState(Array<any>());
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   const stations: Station[] = useNearStations([
     [lonFrom, latFrom],
     [lonTo, latTo],
@@ -141,6 +142,7 @@ export default function ResponsiveInterface() {
           stations={stations}
           stationsData={stationsData}
           toolbarVisible={toolbarVisible}
+          selectedDate={selectedDate}
         />
         <IndicatorToolbar
           toolbarVisible={toolbarVisible}
