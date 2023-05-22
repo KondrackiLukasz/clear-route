@@ -49,7 +49,7 @@ function SetHeightOnChange({ height }:any) {
 
 function calculateHeight(visible:boolean){
     if (window.innerWidth <= 375) {
-        return visible ? '70' : '85';
+        return visible ? '67' : '85';
       }
     else if (window.innerWidth <= 600) {
         return visible ? '65.5' : '85';
@@ -80,7 +80,6 @@ export function MapComponent({from, to, setFrom, setTo, stations, stationsData, 
     const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
     const adjustedHeight = calculateHeight(toolbarVisible);
 
-    console.log(selectedDate);
     return (
         <div>
         <MapContainer

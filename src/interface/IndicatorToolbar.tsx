@@ -19,7 +19,7 @@ export default function IndicatorToolbar({
   interpolatedData,
   handleSelectedDate,
 }: IndicatorToolbarProps) {
-  console.log(selectedDate)
+  
   const stationData = fetchCheckedData(interpolatedData,selectedDate);
   
   return (

@@ -28,7 +28,6 @@ const getColor = (aq: AirQualityData) => {
         pm25: 55,
     };
 
-    console.log(aq)
     // Calculate the Air Quality Index as the average ratio of each pollutant to its maximum acceptable value
     const aqi = Math.max(...Object.keys(aq.iaqi).map(key => aq.iaqi[key as keyof AirQualityData['iaqi']] / maxValues[key as keyof typeof maxValues]));
 
