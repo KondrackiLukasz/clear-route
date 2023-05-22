@@ -120,11 +120,29 @@ export function interpolateData(stations: StationDetails[], date: Date, routePoi
     };
 
     const forecastAverage = (forecastData: Array<{ avg: number, day: string, max: number, min: number }>) => {
-        const avg = calculateAverage(forecastData.map(d => d.avg));
-        const max = Math.max(...forecastData.map(d => d.max));
-        const min = Math.min(...forecastData.map(d => d.min));
+        // Transform the data into an object where each key is a unique date,
+        // and the value is an array of all the forecasts for that date.
+        const dataByDate = forecastData.reduce((acc, curr) => {
+            if (!acc[curr.day]) {
+                acc[curr.day] = [];
+            }
+            acc[curr.day].push(curr);
+            return acc;
+        }, {} as { [key: string]: Array<{ avg: number, day: string, max: number, min: number }> });
 
-        return forecastData.map(d => ({...d, avg, max, min}));
+        // Calculate averages, min and max for each date.
+        return Object.entries(dataByDate).map(([date, data]) => {
+            const avg = calculateAverage(data.map(d => d.avg));
+            const max = Math.max(...data.map(d => d.max));
+            const min = Math.min(...data.map(d => d.min));
+
+            return {
+                day: date,
+                avg,
+                max,
+                min
+            };
+        });
     };
 
     return {
