@@ -105,10 +105,10 @@ export function Routing({
             const coordinates = e.route.coordinates as LatLngTuple[];
             setRouteCoordinates(coordinates);
         });
-        //
-        // return () => {
-        //     map.removeControl(routingControl);
-        // };
+
+        return () => {
+            map.removeControl(routingControl);
+        };
     }, [map, from, to, color]);
     return null;
 }

@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ButtonGroup from '@mui/material/ButtonGroup';
-import { StationDetails } from "../backend/useStationData";
+import ButtonGroup from "@mui/material/ButtonGroup";
+
 type ForecastingToolbarProps = {
   toolbarVisible: boolean;
-  closestStation: StationDetails | null;
   handleSelectedDate: (date: Date) => void;
   children?: React.ReactNode;
 };
@@ -12,37 +12,56 @@ type ForecastingToolbarProps = {
 export default function ForecastingToolbar({
   toolbarVisible,
   children,
-  closestStation,
   handleSelectedDate,
 }: ForecastingToolbarProps) {
+  const [selectedButton, setSelectedButton] = useState<string>("today");
+
   const today = new Date();
-  closestStation
   const handleTodayClick = () => {
+    setSelectedButton("today");
     handleSelectedDate(today);
   };
 
   const handleTomorrowClick = () => {
+    setSelectedButton("tomorrow");
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     handleSelectedDate(tomorrow);
   };
 
   const handleInTwoDaysClick = () => {
+    setSelectedButton("inTwoDays");
     const inTwoDays = new Date(today);
     inTwoDays.setDate(today.getDate() + 2);
     handleSelectedDate(inTwoDays);
   };
+
   return (
     <>
       {toolbarVisible && (
-        <Box textAlign='center' sx={{ "& button": { m: 1 } }}>
+        <Box textAlign="center" sx={{ "& button": { m: 1 } }}>
           <ButtonGroup
             variant="contained"
             aria-label="outlined primary button group"
           >
-            <Button onClick={handleTodayClick}>TODAY</Button>
-            <Button onClick={handleTomorrowClick}>TOMORROW</Button>
-            <Button onClick={handleInTwoDaysClick}>IN 2 DAYS</Button>
+            <Button
+              onClick={handleTodayClick}
+              color={selectedButton === "today" ? 'warning' : 'info'}
+            >
+              TODAY
+            </Button>
+            <Button
+              onClick={handleTomorrowClick}
+              color={selectedButton === "tomorrow" ? 'warning' : 'info'}
+            >
+              TOMORROW
+            </Button>
+            <Button
+              onClick={handleInTwoDaysClick}
+              color={selectedButton === "inTwoDays" ? 'warning' : 'info'}
+            >
+              IN 2 DAYS
+            </Button>
           </ButtonGroup>
         </Box>
       )}

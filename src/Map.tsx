@@ -52,7 +52,7 @@ function calculateHeight(visible:boolean){
         return visible ? '70' : '85';
       }
     else if (window.innerWidth <= 600) {
-        return visible ? '67.5' : '85';
+        return visible ? '65.5' : '85';
       }
     else {
         return visible ? '70' : '86.5';

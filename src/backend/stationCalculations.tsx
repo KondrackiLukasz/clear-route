@@ -1,3 +1,5 @@
+import { getDayIndex } from "./dateTimeHelpers";
+import { AirQualityData } from "./interpolateData";
 import { StationDetails } from "./useStationData";
 
 export function getClosestStation(
@@ -54,48 +56,64 @@ function haversineDistance(
 function toRad(Value: number) {
   return (Value * Math.PI) / 180;
 }
-export function fetchCheckedData(station: StationDetails | null) {
+export function fetchCheckedData(station: AirQualityData | null,selectedDate:Date) {
+
   const items = [
-    { name: "P10" },
-    { name: "P2.5" },
+    { name: "PM10" },
+    { name: "PM2.5" },
     { name: "NO2" },
     { name: "O3" },
     { name: "SO2" },
     { name: "CO" },
   ];
-  return items.map((item) => {
-    let value;
-    switch (item.name) {
-      case "Latitude":
-        value = station?.city.geo[0]?.toFixed(3);
-        break;
-      case "Longitude":
-        value = station?.city.geo[1]?.toFixed(3);
-        break;
-      case "P10":
-        value = station?.iaqi.pm10?.v;
-        break;
-      case "P2.5":
-        value = station?.iaqi.pm25?.v;
-        break;
-      case "NO2":
-        value = station?.iaqi.no2?.v;
-        break;
-      case "O3":
-        value = station?.iaqi.o3?.v;
-        break;
-      case "SO2":
-        value = station?.iaqi.so2?.v;
-        break;
-      case "CO":
-        value = station?.iaqi.co?.v;
-        break;
-      case "AQI":
-        value = station?.aqi;
-        break;
-      default:
-        value = null;
-    }
-    return { name: item.name, value: value };
-  });
+  const roundNum = 2;
+  const forecastedDay = getDayIndex(selectedDate);
+  if (forecastedDay == 0){
+    return items.map((item) => {
+      let value;
+      switch (item.name) {
+        case "PM10":
+          value = station?.iaqi.pm10.toFixed(roundNum);
+          break;
+        case "PM2.5":
+          value = station?.iaqi.pm25.toFixed(roundNum);
+          break;
+        case "NO2":
+          value = station?.iaqi.no2.toFixed(roundNum);
+          break;
+        case "O3":
+          value = station?.iaqi.o3.toFixed(roundNum);
+          break;
+        case "SO2":
+          value = station?.iaqi.so2.toFixed(roundNum);
+          break;
+        case "CO":
+          value = station?.iaqi.co.toFixed(roundNum);
+          break;
+        default:
+          value = null;
+      }
+      return { name: item.name, value: value };
+    });
+  }
+  else{
+    return items.map((item) => {
+      let value;
+      switch (item.name) {
+        case "PM2.5":
+          value = station?.forecast.daily.pm25[forecastedDay]['avg'].toFixed(roundNum);
+          break;
+        case "PM10":
+          value = station?.forecast.daily.pm10[forecastedDay]['avg'].toFixed(roundNum);
+          break;
+        case "O3":
+          value = station?.forecast.daily.o3[forecastedDay]['avg'].toFixed(roundNum);
+          break;
+        default:
+          value = null;
+      }
+      return { name: item.name, value: value };
+    });
+  }
+    
 }

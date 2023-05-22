@@ -38,10 +38,7 @@ export default function ResponsiveInterface() {
       so2: -1
     }, forecast: {daily: {o3: [], pm10: [], pm25: []}}
   });
-  console.log(interpolatedData);
 
-
-  console.log(stationsData);
   useEffect(() => {
     setInterpolatedData(interpolateData(stationsData, selectedDate, []));
   }, [stationsData, selectedDate]);
@@ -56,10 +53,8 @@ export default function ResponsiveInterface() {
   };
 
   const handleSearchSubmit = async (value:string) => {
-    console.log("Search value:", value);
     const coordinates = await fetchCoordinates(value);
     if (coordinates) {
-      console.log("Coordinates:", coordinates);
       setLatTo(coordinates.longitude);
       setLonTo(coordinates.latitude);
     }
@@ -90,8 +85,7 @@ export default function ResponsiveInterface() {
         />
         <IndicatorToolbar
           toolbarVisible={toolbarVisible}
-          dataFrom={[lonFrom, latFrom]}
-          stationsData={stationsData}
+          interpolatedData={interpolatedData}
           selectedDate={selectedDate}
           handleSelectedDate={handleSelectedDate}
         />

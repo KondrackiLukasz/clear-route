@@ -1,34 +1,26 @@
 import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { StationDetails } from "../backend/useStationData";
 import ForecastingToolbar from "./ForecastingToolbar";
-import { getClosestStation, fetchCheckedData } from "../backend/stationCalculations";
+import { fetchCheckedData } from "../backend/stationCalculations";
 import "./IndicatorToolbarStyles.css";
-import { isToday } from "../backend/dateTimeHelpers";
+import { AirQualityData } from "../backend/interpolateData";
 
 type IndicatorToolbarProps = {
   toolbarVisible: boolean;
-  dataFrom: Array<number>;
-  stationsData: Array<StationDetails>;
   handleSelectedDate: (date: Date) => void;
   selectedDate: Date;
+  interpolatedData: AirQualityData
   children?: React.ReactNode;
 };
 
 export default function IndicatorToolbar({
   toolbarVisible,
-  dataFrom,
-  stationsData,
   selectedDate,
+  interpolatedData,
   handleSelectedDate,
 }: IndicatorToolbarProps) {
-  const closestStation = getClosestStation(
-    dataFrom[0],
-    dataFrom[1],
-    stationsData
-  );
-
-  const stationData = fetchCheckedData(closestStation);
+  console.log(selectedDate)
+  const stationData = fetchCheckedData(interpolatedData,selectedDate);
   
   return (
     <>
@@ -45,7 +37,7 @@ export default function IndicatorToolbar({
                 bgcolor:"rgb(25, 118, 210)",
               }}
             >
-              {isToday(selectedDate) && stationData.map((item, index) => (
+              {stationData?.map((item, index) => (
                 <div key={index} className={`checkbox-item`}>
                   {item.value && (
                     <div>
@@ -59,7 +51,7 @@ export default function IndicatorToolbar({
           </Grid>
         </Grid>
       )}
-      <ForecastingToolbar toolbarVisible={toolbarVisible} closestStation = {closestStation} handleSelectedDate = {handleSelectedDate}></ForecastingToolbar>
+      <ForecastingToolbar toolbarVisible={toolbarVisible} handleSelectedDate = {handleSelectedDate}></ForecastingToolbar>
     </>
   );
 }

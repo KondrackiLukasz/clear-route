@@ -1,6 +1,8 @@
-export function isToday(someDate:Date){
+export function getDayIndex(someDate:Date){
     const today = new Date()
-    return someDate.getDate() == today.getDate() &&
-      someDate.getMonth() == today.getMonth() &&
-      someDate.getFullYear() == today.getFullYear()
+
+    let difference = someDate.getTime() - today.getTime();
+    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+    return Math.floor(Math.abs(TotalDays));
+
   }
