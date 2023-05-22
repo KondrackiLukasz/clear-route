@@ -49,13 +49,13 @@ function SetHeightOnChange({ height }:any) {
 
 function calculateHeight(visible:boolean){
     if (window.innerWidth <= 375) {
-        return visible ? '63' : '85';
+        return visible ? '63' : '75';
       }
     else if (window.innerWidth <= 600) {
-        return visible ? '62.5' : '85';
+        return visible ? '62.5' : '78';
       }
     else {
-        return visible ? '70' : '86.5';
+        return visible ? '70' : '82.5';
     }
 }
 
@@ -74,7 +74,7 @@ function reduceRouteCoordinates(routeCoordinates: LatLngTuple[]) {
     return newCoordinates;
 }
 
-export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, selectedDate, interpolatedData}: MapComponentProps) {
+export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, interpolatedData}: MapComponentProps) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);

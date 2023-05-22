@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Toolbar from "@mui/material/Toolbar";
 
-function AppBarComponent(props: { handleSearchSubmit: (arg0: string) => void; }) {
+function AppBarComponent(props: { label:string, handleSearchSubmit: (arg0: string) => void; }) {
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearchChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -23,7 +23,7 @@ function AppBarComponent(props: { handleSearchSubmit: (arg0: string) => void; })
           <SearchIcon />
         </IconButton>
         <InputBase
-          placeholder="Search..."
+          placeholder={props.label}
           inputProps={{
             "aria-label": "search",
           }}

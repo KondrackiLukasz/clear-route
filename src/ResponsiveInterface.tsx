@@ -52,7 +52,7 @@ export default function ResponsiveInterface() {
     setSelectedDate(date);
   };
 
-  const handleSearchSubmit = async (value:string) => {
+  const handleSearchToSubmit = async (value:string) => {
     const coordinates = await fetchCoordinates(value);
     if (coordinates) {
       setLatTo(coordinates.longitude);
@@ -60,11 +60,24 @@ export default function ResponsiveInterface() {
     }
   };
 
+  const handleSearchFromSubmit = async (value:string) => {
+    const coordinates = await fetchCoordinates(value);
+    if (coordinates) {
+      setLatFrom(coordinates.longitude);
+      setLonFrom(coordinates.latitude);
+    }
+  };
+
   return (
     <div>
       <div>
         <AppBarComponent
-          handleSearchSubmit={handleSearchSubmit}
+        label="Enter your current location"
+          handleSearchSubmit={handleSearchFromSubmit}
+        ></AppBarComponent>
+        <AppBarComponent
+        label="Enter destination"
+          handleSearchSubmit={handleSearchToSubmit}
         ></AppBarComponent>
         <MapComponent
           from={[lonFrom, latFrom]}
