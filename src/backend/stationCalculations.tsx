@@ -3,7 +3,8 @@ import { StationDetails } from "./useStationData";
 export function getClosestStation(
   latitude: number,
   longitude: number,
-  stations: StationDetails[]): StationDetails | null {
+  stations: StationDetails[]
+): StationDetails | null {
   var closestStation: StationDetails | null = null;
   var shortestDistance = Infinity;
 
@@ -26,6 +27,7 @@ export function getClosestStation(
 
   return closestStation;
 }
+
 function haversineDistance(
   lat1: number,
   lon1: number,
@@ -36,23 +38,31 @@ function haversineDistance(
   let dLat = toRad(lat2 - lat1);
   let dLon = toRad(lon2 - lon1);
 
-  let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  let a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRad(lat1)) *
-    Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
 
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   let d = R * c;
 
   return d;
 }
+
 function toRad(Value: number) {
   return (Value * Math.PI) / 180;
 }
-export function fetchCheckedData(
-  station: StationDetails | null,
-  items: { name: string; }[]) {
+export function fetchCheckedData(station: StationDetails | null) {
+  const items = [
+    { name: "P10" },
+    { name: "P2.5" },
+    { name: "NO2" },
+    { name: "O3" },
+    { name: "SO2" },
+    { name: "CO" },
+  ];
   return items.map((item) => {
     let value;
     switch (item.name) {

@@ -33,6 +33,7 @@ export function JustMap() {
         }}
         stations={stations}
         stationsData = {stationsData}
-        toolbarVisible = {false}/>
+        toolbarVisible = {false}
+        selectedDate = {new Date()}/>
     )
 }

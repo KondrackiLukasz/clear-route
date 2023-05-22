@@ -19,6 +19,7 @@ export interface MapComponentProps {
     stations: Station[];
     stationsData: StationDetails[];
     toolbarVisible: boolean;
+    selectedDate: Date;
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -46,20 +47,20 @@ function SetHeightOnChange({ height }:any) {
 
 function calculateHeight(visible:boolean){
     if (window.innerWidth <= 375) {
-        return visible ? '60' : '85';
+        return visible ? '67' : '85';
       } 
     else if (window.innerWidth <= 600) {
-        return visible ? '50' : '85';
+        return visible ? '67' : '85';
       } 
     else {
-        return visible ? '75' : '86.5';  
+        return visible ? '78' : '86.5';  
     }
 }
 
-export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible}: MapComponentProps) {
+export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, selectedDate}: MapComponentProps) {
     const [_, setRouteCoordinates] = useState<LatLngTuple[]>([]);
     const adjustedHeight = calculateHeight(toolbarVisible);
-    
+    console.log(selectedDate);
     return (
         <div>
         <MapContainer

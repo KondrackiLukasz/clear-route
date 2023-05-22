@@ -1,24 +1,26 @@
 import { Box, Grid } from "@mui/material";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { StationDetails } from "../backend/useStationData";
 import ForecastingToolbar from "./ForecastingToolbar";
 import { getClosestStation, fetchCheckedData } from "../backend/stationCalculations";
 import "./IndicatorToolbarStyles.css";
+import { isToday } from "../backend/dateTimeHelpers";
 
 type IndicatorToolbarProps = {
   toolbarVisible: boolean;
-  checkedItems: Array<any>;
   dataFrom: Array<number>;
   stationsData: Array<StationDetails>;
+  handleSelectedDate: (date: Date) => void;
+  selectedDate: Date;
   children?: React.ReactNode;
 };
 
 export default function IndicatorToolbar({
-  checkedItems,
   toolbarVisible,
   dataFrom,
   stationsData,
+  selectedDate,
+  handleSelectedDate,
 }: IndicatorToolbarProps) {
   const closestStation = getClosestStation(
     dataFrom[0],
@@ -26,8 +28,8 @@ export default function IndicatorToolbar({
     stationsData
   );
 
-  const stationData = fetchCheckedData(closestStation, checkedItems);
-
+  const stationData = fetchCheckedData(closestStation);
+  
   return (
     <>
       {toolbarVisible && (
@@ -40,15 +42,14 @@ export default function IndicatorToolbar({
                 justifyContent: "center",
                 gap: 2,
                 width: "100%",
-                bgcolor:"#3366ff",
+                bgcolor:"rgb(25, 118, 210)",
               }}
             >
-              {stationData.map((item, index) => (
+              {isToday(selectedDate) && stationData.map((item, index) => (
                 <div key={index} className={`checkbox-item`}>
                   {item.value && (
                     <div>
                       <Typography variant="h5">{item.name}</Typography>
-                      <Divider />
                       <Typography variant="h6">{item.value}</Typography>
                     </div>
                   )}
@@ -58,7 +59,7 @@ export default function IndicatorToolbar({
           </Grid>
         </Grid>
       )}
-      <ForecastingToolbar toolbarVisible={toolbarVisible} closestStation = {closestStation}></ForecastingToolbar>
+      <ForecastingToolbar toolbarVisible={toolbarVisible} closestStation = {closestStation} handleSelectedDate = {handleSelectedDate}></ForecastingToolbar>
     </>
   );
 }

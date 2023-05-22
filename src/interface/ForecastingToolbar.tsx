@@ -1,50 +1,50 @@
-import { Box, Grid, Typography } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import { Box } from "@mui/material";
+import Button from "@mui/material/Button";
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { StationDetails } from "../backend/useStationData";
-import HorizontalCollapsibleList from "./HorizontalCollapsibleList";
 type ForecastingToolbarProps = {
   toolbarVisible: boolean;
   closestStation: StationDetails | null;
+  handleSelectedDate: (date: Date) => void;
   children?: React.ReactNode;
 };
 
 export default function ForecastingToolbar({
   toolbarVisible,
   children,
-  closestStation
+  closestStation,
+  handleSelectedDate,
 }: ForecastingToolbarProps) {
+  const today = new Date();
+  closestStation
+  const handleTodayClick = () => {
+    handleSelectedDate(today);
+  };
+
+  const handleTomorrowClick = () => {
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    handleSelectedDate(tomorrow);
+  };
+
+  const handleInTwoDaysClick = () => {
+    const inTwoDays = new Date(today);
+    inTwoDays.setDate(today.getDate() + 2);
+    handleSelectedDate(inTwoDays);
+  };
   return (
     <>
       {toolbarVisible && (
-        <Grid container>
-          <Grid container item xs={12}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                bgcolor: "#668cff",
-              }}
-            >
-              <Typography variant="h4">FORECASTING DATA</Typography>
-              <Divider />
-              <br></br>
-            </Box>
-            <HorizontalCollapsibleList
-              title={"PM10"}
-              forecastingData={closestStation}
-            ></HorizontalCollapsibleList>
-            <HorizontalCollapsibleList
-              title={"PM2.5"}
-              forecastingData={closestStation}
-            ></HorizontalCollapsibleList>
-            <HorizontalCollapsibleList
-              title={"O3"}
-              forecastingData={closestStation}
-            ></HorizontalCollapsibleList>
-          </Grid>
-        </Grid>
+        <Box textAlign='center' sx={{ "& button": { m: 1 } }}>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button onClick={handleTodayClick}>TODAY</Button>
+            <Button onClick={handleTomorrowClick}>TOMORROW</Button>
+            <Button onClick={handleInTwoDaysClick}>IN 2 DAYS</Button>
+          </ButtonGroup>
+        </Box>
       )}
       {children}
     </>
