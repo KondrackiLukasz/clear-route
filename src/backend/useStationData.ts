@@ -1,7 +1,31 @@
 import {useEffect, useState} from 'react';
 import {Station} from './useNearStations';
 
-interface AirQualityData {
+
+export type StationDetails = {
+    idx: number;
+    aqi: number;
+    attributions: Array<{
+        url: string;
+        name: string;
+        logo?: string;
+    }>;
+    city: {
+        geo: number[];
+        name: string;
+        url: string;
+        location: string;
+    };
+    dominentpol: string;
+    time: {
+        s: string;
+        tz: string;
+        v: number;
+        iso: string;
+    };
+    debug: {
+        sync: string;
+    };
     iaqi: {
         co?: {
             v: number;
@@ -43,32 +67,6 @@ interface AirQualityData {
                 min: number;
             }>;
         };
-    };
-}
-
-export type StationDetails = AirQualityData & {
-    idx: number;
-    aqi: number;
-    attributions: Array<{
-        url: string;
-        name: string;
-        logo?: string;
-    }>;
-    city: {
-        geo: number[];
-        name: string;
-        url: string;
-        location: string;
-    };
-    dominentpol: string;
-    time: {
-        s: string;
-        tz: string;
-        v: number;
-        iso: string;
-    };
-    debug: {
-        sync: string;
     };
 }
 

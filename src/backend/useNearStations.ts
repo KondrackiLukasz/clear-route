@@ -11,10 +11,10 @@ export interface Station {
 export function useNearStations(waypoints: LatLngTuple[]) {
     const [stations, setStations] = useState<Station[]>([]);
 
-    const minLat = Math.min(...waypoints.map(point => point[0])) - 1;
-    const maxLat = Math.max(...waypoints.map(point => point[0])) + 1;
-    const minLng = Math.min(...waypoints.map(point => point[1])) - 1;
-    const maxLng = Math.max(...waypoints.map(point => point[1])) + 1;
+    const minLat = Math.min(...waypoints.map(point => point[0])) - 0.5;
+    const maxLat = Math.max(...waypoints.map(point => point[0])) + 0.5;
+    const minLng = Math.min(...waypoints.map(point => point[1])) - 0.5;
+    const maxLng = Math.max(...waypoints.map(point => point[1])) + 0.5;
 
     useEffect(() => {
         const fetchStations = async () => {

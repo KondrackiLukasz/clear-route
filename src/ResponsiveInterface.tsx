@@ -36,8 +36,9 @@ export default function ResponsiveInterface() {
       pm10: -1,
       pm25: -1,
       so2: -1
-    }
+    }, forecast: {daily: {o3: [], pm10: [], pm25: []}}
   });
+  console.log(interpolatedData);
 
 
   console.log(stationsData);
