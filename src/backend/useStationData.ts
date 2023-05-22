@@ -1,29 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Station } from './useNearStations';
+import {useEffect, useState} from 'react';
+import {Station} from './useNearStations';
 
-export interface StationDetails {
-    idx: number;
-    aqi: number;
-    attributions: Array<{
-        url: string;
-        name: string;
-        logo?: string;
-    }>;
-    city: {
-        geo: number[];
-        name: string;
-        url: string;
-        location: string;
-    };
-    dominentpol: string;
+interface AirQualityData {
     iaqi: {
         co?: {
-            v: number;
-        };
-        dew?: {
-            v: number;
-        };
-        h?: {
             v: number;
         };
         no2?: {
@@ -32,33 +12,15 @@ export interface StationDetails {
         o3?: {
             v: number;
         };
-        p?: {
-            v: number;
-        };
         pm10?: {
-            v: number;
-        };
-        r?: {
             v: number;
         };
         so2?: {
             v: number;
         };
-        t?: {
-            v: number;
-        };
-        w?: {
-            v: number;
-        };
         pm25?: {
             v: number;
         };
-    };
-    time: {
-        s: string;
-        tz: string;
-        v: number;
-        iso: string;
     };
     forecast: {
         daily: {
@@ -81,6 +43,29 @@ export interface StationDetails {
                 min: number;
             }>;
         };
+    };
+}
+
+export type StationDetails = AirQualityData & {
+    idx: number;
+    aqi: number;
+    attributions: Array<{
+        url: string;
+        name: string;
+        logo?: string;
+    }>;
+    city: {
+        geo: number[];
+        name: string;
+        url: string;
+        location: string;
+    };
+    dominentpol: string;
+    time: {
+        s: string;
+        tz: string;
+        v: number;
+        iso: string;
     };
     debug: {
         sync: string;

@@ -6,6 +6,8 @@ import { Station, useNearStations } from "./backend/useNearStations";
 import IndicatorToolbar from "./interface/IndicatorToolbar";
 import { fetchCoordinates } from "./backend/currentLocationProvider";
 import AppBarComponent from "./interface/AppBarComponent";
+import {useEffect, useState} from "react";
+import {AirQualityData, interpolateData} from "./backend/interpolateData.ts";
 
 const initialLonFrom = 54.3842;
 const initialLatFrom = 18.5922;
@@ -25,6 +27,24 @@ export default function ResponsiveInterface() {
     [lonTo, latTo],
   ]);
   const stationsData = useStationData(stations);
+
+  const [interpolatedData, setInterpolatedData] = useState<AirQualityData>({
+    iaqi: {
+      co: -1,
+      no2: -1,
+      o3: -1,
+      pm10: -1,
+      pm25: -1,
+      so2: -1
+    }
+  });
+
+
+  console.log(stationsData);
+  useEffect(() => {
+    setInterpolatedData(interpolateData(stationsData, selectedDate, []));
+  }, [stationsData, selectedDate]);
+
 
   const handleBottomBarClick = () => {
     setToolbarVisible(!toolbarVisible);
@@ -65,6 +85,7 @@ export default function ResponsiveInterface() {
           stationsData={stationsData}
           toolbarVisible={toolbarVisible}
           selectedDate={selectedDate}
+          interpolatedData={interpolatedData}
         />
         <IndicatorToolbar
           toolbarVisible={toolbarVisible}

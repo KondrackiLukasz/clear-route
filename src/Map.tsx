@@ -4,12 +4,13 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import {useState} from "react";
+import { useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
 import {StationDetails} from "./backend/useStationData.ts";
 import {StationPopup} from "./StationPopup.tsx";
+import {AirQualityData} from "./backend/interpolateData.ts";
 
 export interface MapComponentProps {
     from: LatLngTuple;
@@ -20,6 +21,7 @@ export interface MapComponentProps {
     stationsData: StationDetails[];
     toolbarVisible: boolean;
     selectedDate: Date;
+    interpolatedData: AirQualityData;
 }
 
 const stationIcon = L.AwesomeMarkers.icon({
@@ -57,8 +59,25 @@ function calculateHeight(visible:boolean){
     }
 }
 
-export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, selectedDate}: MapComponentProps) {
-    const [_, setRouteCoordinates] = useState<LatLngTuple[]>([]);
+
+function reduceRouteCoordinates(routeCoordinates: LatLngTuple[]) {
+    const newCoordinates: LatLngTuple[] = [];
+    if (routeCoordinates.length > 10) {
+        const step = Math.floor(routeCoordinates.length / 10);
+
+        for (let i = 0; i < routeCoordinates.length; i += step) {
+            newCoordinates.push(routeCoordinates[i]);
+        }
+
+        newCoordinates.length = 10; // ensure that newCoordinates only contains 10 elements
+    }
+    return newCoordinates;
+}
+
+export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, selectedDate, interpolatedData}: MapComponentProps) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
     const adjustedHeight = calculateHeight(toolbarVisible);
 
     console.log(selectedDate);
@@ -74,7 +93,7 @@ export function MapComponent({from, to, setFrom, setTo, stations, stationsData, 
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Routing from={from} to={to} setRouteCoordinates={setRouteCoordinates} setFrom={setFrom} setTo={setTo}/>
+            <Routing from={from} to={to} setRouteCoordinates={(cords: LatLngTuple[]) => setRouteCoordinates(reduceRouteCoordinates(cords))} setFrom={setFrom} setTo={setTo} interpolatedData={interpolatedData}/>
             {stations.map((station) => (
                 <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
                     <Popup>
