@@ -12,6 +12,13 @@ import {StationDetails} from "./backend/useStationData.ts";
 import {StationPopup} from "./StationPopup.tsx";
 import {AirQualityData} from "./backend/interpolateData.ts";
 
+export const MOBILE_VH_375_HIDDEN = "75";
+export const MOBILE_VH_375_VISIBLE = "55";
+export const MOBILE_VH_600_HIDDEN = "78";
+export const MOBILE_VH_600_VISIBLE = "55";
+export const PC_VH_HIDDEN = "82.5";
+export const PC_VH_VISIBLE = "70";
+
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
@@ -49,13 +56,13 @@ function SetHeightOnChange({ height }:any) {
 
 function calculateHeight(visible:boolean){
     if (window.innerWidth <= 375) {
-        return visible ? '63' : '75';
+        return visible ? MOBILE_VH_375_VISIBLE : MOBILE_VH_375_HIDDEN;
       }
     else if (window.innerWidth <= 600) {
-        return visible ? '62.5' : '78';
+        return visible ? MOBILE_VH_600_VISIBLE : MOBILE_VH_600_HIDDEN;
       }
     else {
-        return visible ? '70' : '82.5';
+        return visible ? PC_VH_VISIBLE : PC_VH_HIDDEN;
     }
 }
 

@@ -4,6 +4,7 @@ import ForecastingToolbar from "./ForecastingToolbar";
 import { fetchCheckedData } from "../backend/stationCalculations";
 import "./IndicatorToolbarStyles.css";
 import { AirQualityData } from "../backend/interpolateData";
+import { memo } from "react";
 
 type IndicatorToolbarProps = {
   toolbarVisible: boolean;
@@ -13,13 +14,13 @@ type IndicatorToolbarProps = {
   children?: React.ReactNode;
 };
 
-export default function IndicatorToolbar({
+function IndicatorToolbar({
   toolbarVisible,
   selectedDate,
   interpolatedData,
   handleSelectedDate,
 }: IndicatorToolbarProps) {
-  
+
   const stationData = fetchCheckedData(interpolatedData,selectedDate);
   
   return (
@@ -55,5 +56,6 @@ export default function IndicatorToolbar({
     </>
   );
 }
+export default memo(IndicatorToolbar);
 
 

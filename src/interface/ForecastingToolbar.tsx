@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -9,7 +9,7 @@ type ForecastingToolbarProps = {
   children?: React.ReactNode;
 };
 
-export default function ForecastingToolbar({
+function ForecastingToolbar({
   toolbarVisible,
   children,
   handleSelectedDate,
@@ -69,3 +69,5 @@ export default function ForecastingToolbar({
     </>
   );
 }
+
+export default memo(ForecastingToolbar);
