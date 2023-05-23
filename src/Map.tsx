@@ -55,7 +55,7 @@ function SetHeightOnChange({height}: any) {
 
 function calculateHeight(visible: boolean) {
     
-    if (window.innerWidth <= 390) {
+    if (window.innerWidth <= 400) {
         return visible ? MOBILE_VH_375_VISIBLE : MOBILE_VH_375_HIDDEN;
     } else if (window.innerWidth <= 600) {
         return visible ? MOBILE_VH_600_VISIBLE : MOBILE_VH_600_HIDDEN;
