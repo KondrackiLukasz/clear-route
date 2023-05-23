@@ -4,13 +4,14 @@ import ForecastingToolbar from "./ForecastingToolbar";
 import { fetchCheckedData } from "../backend/stationCalculations";
 import "./IndicatorToolbarStyles.css";
 import { AirQualityData } from "../backend/interpolateData";
+import { createTheme, ThemeProvider,responsiveFontSizes } from "@mui/material/styles";
 import { memo } from "react";
 
 type IndicatorToolbarProps = {
   toolbarVisible: boolean;
   handleSelectedDate: (date: Date) => void;
   selectedDate: Date;
-  interpolatedData: AirQualityData
+  interpolatedData: AirQualityData;
   children?: React.ReactNode;
 };
 
@@ -20,9 +21,11 @@ function IndicatorToolbar({
   interpolatedData,
   handleSelectedDate,
 }: IndicatorToolbarProps) {
-
-  const stationData = fetchCheckedData(interpolatedData,selectedDate);
   
+  let theme = createTheme();
+  theme = responsiveFontSizes(theme);
+  const stationData = fetchCheckedData(interpolatedData, selectedDate);
+
   return (
     <>
       {toolbarVisible && (
@@ -33,17 +36,19 @@ function IndicatorToolbar({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: 2,
+                gap: 1.5,
                 width: "100%",
-                bgcolor:"rgb(25, 118, 210)",
+                bgcolor: "rgb(25, 118, 210)",
               }}
             >
               {stationData?.map((item, index) => (
                 <div key={index} className={`checkbox-item`}>
                   {item.value && (
                     <div>
-                      <Typography variant="h5">{item.name}</Typography>
-                      <Typography variant="h6">{item.value}</Typography>
+                      <ThemeProvider theme={theme}>
+                        <Typography variant ="h6">{item.name}</Typography>
+                        <Typography >{item.value}</Typography>
+                      </ThemeProvider>
                     </div>
                   )}
                 </div>
@@ -52,10 +57,11 @@ function IndicatorToolbar({
           </Grid>
         </Grid>
       )}
-      <ForecastingToolbar toolbarVisible={toolbarVisible} handleSelectedDate = {handleSelectedDate}></ForecastingToolbar>
+      <ForecastingToolbar
+        toolbarVisible={toolbarVisible}
+        handleSelectedDate={handleSelectedDate}
+      ></ForecastingToolbar>
     </>
   );
 }
 export default memo(IndicatorToolbar);
-
-

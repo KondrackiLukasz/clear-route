@@ -54,13 +54,16 @@ function SetHeightOnChange({height}: any) {
 }
 
 function calculateHeight(visible: boolean) {
-    console.log(window.innerWidth)
+    
     if (window.innerWidth <= 390) {
         return visible ? MOBILE_VH_375_VISIBLE : MOBILE_VH_375_HIDDEN;
     } else if (window.innerWidth <= 600) {
         return visible ? MOBILE_VH_600_VISIBLE : MOBILE_VH_600_HIDDEN;
     } else if (window.innerWidth <= 700) {
         return visible ? '65' : '80';
+    }
+    else if (window.innerWidth <= 900) {
+        return visible ? '65' : '77';
     }
      else if (window.innerWidth <= 1024) {
         return visible ? '70' : '75';
