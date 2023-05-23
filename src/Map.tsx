@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "fontawesome-free/css/all.min.css";
 import {Routing} from "./Routing";
-import { useState} from "react";
+import {useState} from "react";
 import {Station} from "./backend/useAllStations.ts";
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import 'leaflet.awesome-markers';
@@ -45,23 +45,21 @@ const DefaultIcon = L.AwesomeMarkers.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function SetHeightOnChange({ height }:any) {
+function SetHeightOnChange({height}: any) {
     const map = useMap();
 
     const mapContainer = map.getContainer();
     mapContainer.style.cssText = `height: ${height}vh; position: relative;`;
 
     return null;
-  }
+}
 
-function calculateHeight(visible:boolean){
+function calculateHeight(visible: boolean) {
     if (window.innerWidth <= 375) {
         return visible ? MOBILE_VH_375_VISIBLE : MOBILE_VH_375_HIDDEN;
-      }
-    else if (window.innerWidth <= 600) {
+    } else if (window.innerWidth <= 600) {
         return visible ? MOBILE_VH_600_VISIBLE : MOBILE_VH_600_HIDDEN;
-      }
-    else {
+    } else {
         return visible ? PC_VH_VISIBLE : PC_VH_HIDDEN;
     }
 }
@@ -81,7 +79,17 @@ function reduceRouteCoordinates(routeCoordinates: LatLngTuple[]) {
     return newCoordinates;
 }
 
-export function MapComponent({from, to, setFrom, setTo, stations, stationsData, toolbarVisible, interpolatedData}: MapComponentProps) {
+export function MapComponent({
+                                 from,
+                                 to,
+                                 setFrom,
+                                 setTo,
+                                 stations,
+                                 stationsData,
+                                 toolbarVisible,
+                                 interpolatedData,
+                                 selectedDate
+                             }: MapComponentProps) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const [routeCoordinates, setRouteCoordinates] = useState<LatLngTuple[]>([]);
@@ -89,26 +97,30 @@ export function MapComponent({from, to, setFrom, setTo, stations, stationsData, 
 
     return (
         <div>
-        <MapContainer
-            center={from}
-            zoom={13}
-            style={{ height: {adjustedHeight} +"vh" ,width: '100%' }}
-        >
-            <TileLayer
-                keepBuffer={10}
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Routing from={from} to={to} setRouteCoordinates={(cords: LatLngTuple[]) => setRouteCoordinates(reduceRouteCoordinates(cords))} setFrom={setFrom} setTo={setTo} interpolatedData={interpolatedData}/>
-            {stations.map((station) => (
-                <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
-                    <Popup>
-                        <StationPopup station={station} stationData={stationsData.find(sD => sD.idx === station.idx)}/>
-                    </Popup>
-                </Marker>
-            ))}
-            <SetHeightOnChange height={adjustedHeight} />
-        </MapContainer>
+            <MapContainer
+                center={from}
+                zoom={13}
+                style={{height: {adjustedHeight} + "vh", width: '100%'}}
+            >
+                <TileLayer
+                    keepBuffer={10}
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Routing from={from} to={to}
+                         setRouteCoordinates={(cords: LatLngTuple[]) => setRouteCoordinates(reduceRouteCoordinates(cords))}
+                         setFrom={setFrom} setTo={setTo} interpolatedData={interpolatedData}/>
+                {stations.map((station) => (
+                    <Marker key={station.idx} position={[station.lat, station.lng]} icon={stationIcon}>
+                        <Popup>
+                            <StationPopup station={station}
+                                          stationData={stationsData.find(sD => sD.idx === station.idx)}
+                                          selectedDate={selectedDate}/>
+                        </Popup>
+                    </Marker>
+                ))}
+                <SetHeightOnChange height={adjustedHeight}/>
+            </MapContainer>
 
         </div>
     );
