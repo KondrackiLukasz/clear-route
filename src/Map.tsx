@@ -13,12 +13,11 @@ import {StationPopup} from "./StationPopup.tsx";
 import {AirQualityData} from "./backend/interpolateData.ts";
 
 export const MOBILE_VH_375_HIDDEN = "75";
-export const MOBILE_VH_375_VISIBLE = "55";
+export const MOBILE_VH_375_VISIBLE = "65";
 export const MOBILE_VH_600_HIDDEN = "78";
-export const MOBILE_VH_600_VISIBLE = "55";
+export const MOBILE_VH_600_VISIBLE = "65";
 export const PC_VH_HIDDEN = "82.5";
-export const PC_VH_VISIBLE = "70";
-
+export const PC_VH_VISIBLE = "65";
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
