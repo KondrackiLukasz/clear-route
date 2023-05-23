@@ -4,7 +4,7 @@ interface Coordinates {
   }
   
  export async function fetchCoordinates(locationName: string): Promise<Coordinates | null> {
-    const apiKey = 'bc1db8bd3a044491b86914d4dadf254b';
+    const apiKey = '';
     const encodedLocation = encodeURIComponent(locationName);
   
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodedLocation}&key=${apiKey}`;
