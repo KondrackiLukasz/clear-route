@@ -12,12 +12,12 @@ import {StationDetails} from "./backend/useStationData.ts";
 import {StationPopup} from "./StationPopup.tsx";
 import {AirQualityData} from "./backend/interpolateData.ts";
 
-export const MOBILE_VH_375_HIDDEN = "75";
-export const MOBILE_VH_375_VISIBLE = "65";
+export const MOBILE_VH_375_HIDDEN = "70";
+export const MOBILE_VH_375_VISIBLE = "55";
 export const MOBILE_VH_600_HIDDEN = "78";
 export const MOBILE_VH_600_VISIBLE = "65";
-export const PC_VH_HIDDEN = "82.5";
-export const PC_VH_VISIBLE = "65";
+export const PC_VH_HIDDEN = "80.5";
+export const PC_VH_VISIBLE = "70";
 export interface MapComponentProps {
     from: LatLngTuple;
     to: LatLngTuple;
@@ -54,11 +54,20 @@ function SetHeightOnChange({height}: any) {
 }
 
 function calculateHeight(visible: boolean) {
-    if (window.innerWidth <= 375) {
+    console.log(window.innerWidth)
+    if (window.innerWidth <= 390) {
         return visible ? MOBILE_VH_375_VISIBLE : MOBILE_VH_375_HIDDEN;
     } else if (window.innerWidth <= 600) {
         return visible ? MOBILE_VH_600_VISIBLE : MOBILE_VH_600_HIDDEN;
-    } else {
+    } else if (window.innerWidth <= 700) {
+        return visible ? '65' : '80';
+    }
+     else if (window.innerWidth <= 1024) {
+        return visible ? '70' : '75';
+    }else if (window.innerWidth <= 1280) {
+        return visible ? '65' : '75';
+    }
+     else {
         return visible ? PC_VH_VISIBLE : PC_VH_HIDDEN;
     }
 }
